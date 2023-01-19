@@ -23,6 +23,7 @@ connect(process.env.MONGODB_SRV as string);
 const client = new Client({ // Create a new Discord client
     intents: [
         GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMembers,
     ],
     shards: 'auto',
 });

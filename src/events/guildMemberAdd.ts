@@ -1,11 +1,15 @@
-import profileSchema from '../schemas/profileSchema';
+import profileRoleSchema from '../schemas/profileRoleSchema';
+import guildSchema = require('../schemas/guildSchema');
 module.exports = {
-    name: 'guildMemberRemove',
+    name: 'guildMemberAdd',
     async execute(member: any) {
 
-        const profileData = await profileSchema.findOne({ userID: member.id });
+        const profileData = await profileRoleSchema.findOne({ userID: member.id });
+        const guildData = await guildSchema.findOne({ guildID: member.guild.id });
 
         if (!profileData) return;
+        if (!guildData) return;
+        if (!guildData.stickyRoles) return;
 
         const roles: string[] = profileData.roleIDs;
 
@@ -16,7 +20,7 @@ module.exports = {
             }
         }
 
-        await profileSchema.findOneAndDelete({
+        await profileRoleSchema.findOneAndDelete({
             userID: member.id,
             guildID: member.guild.id,
         });

@@ -17,4 +17,12 @@ module.exports = [
     new SlashCommandBuilder()
         .setName('uptime')
         .setDescription('Check how long has the bot been online.'),
+
+    new SlashCommandBuilder()
+        .setName('stickyroles')
+        .setDescription('Toggles sticky roles.'),
+
+    new SlashCommandBuilder()
+        .setName('serverinfo')
+        .setDescription('Shows info about the server.'),
 ];

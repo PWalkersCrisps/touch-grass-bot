@@ -1,5 +1,5 @@
 import guildSchema from '../schemas/guildSchema';
-import profileSchema from '../schemas/profileSchema';
+import profileSchema from '../schemas/profileRoleSchema';
 
 export = {
     createGuildDocument: async function(guildID: string): Promise<GuildDocument> {
