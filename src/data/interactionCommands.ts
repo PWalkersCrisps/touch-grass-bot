@@ -3,6 +3,10 @@ import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 module.exports = [
 
     new SlashCommandBuilder()
+        .setName('help')
+        .setDescription('Lists all commands and their descriptions'),
+
+    new SlashCommandBuilder()
         .setName('ping')
         .setDescription('Replies with server latinency'),
 
