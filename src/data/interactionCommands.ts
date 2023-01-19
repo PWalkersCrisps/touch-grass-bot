@@ -1,9 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 
 module.exports = [
-    new SlashCommandBuilder()
-        .setName('botinfo')
-        .setDescription('Shows info about the bot.'),
 
     new SlashCommandBuilder()
         .setName('ping')
@@ -16,8 +13,4 @@ module.exports = [
     new SlashCommandBuilder()
         .setName('uptime')
         .setDescription('Check how long has the bot been online.'),
-
-    new SlashCommandBuilder()
-        .setName('invite')
-        .setDescription('Invite the bot to your server'),
 ];

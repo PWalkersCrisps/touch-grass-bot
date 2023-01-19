@@ -12,7 +12,9 @@ module.exports = {
     description: 'Displays indept information about the bot.',
     async execute({ client, interaction }: any) {
 
+
         const cpu = cpus()[0].model.split('CPU');
+
 
         const generalInfo = {
             name: '<:documents:773950876347793449> General ❯',
@@ -36,6 +38,7 @@ module.exports = {
                     **<:djs:773599989833400371> discord.js: v${djsversion}**\n
                     **🖥 Platform: ${platform.toString()}**\n
                     **📊 Memory: ${modifyString.formatBytes(process.memoryUsage().heapUsed)} / ${modifyString.formatBytes(process.memoryUsage().heapTotal)}**\n
+
                     **💻 CPU: ${cpu[0]}${cpus().length} Cores ${cpu[1]}**`,
         };
 
