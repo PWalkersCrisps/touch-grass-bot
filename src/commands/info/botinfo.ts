@@ -13,6 +13,9 @@ module.exports = {
     async execute({ client, interaction }: any) {
 
 
+        const cpu = cpus()[0].model.split('CPU');
+
+
         const generalInfo = {
             name: '<:documents:773950876347793449> General ❯',
             inline: false,
@@ -35,7 +38,8 @@ module.exports = {
                     **<:djs:773599989833400371> discord.js: v${djsversion}**\n
                     **🖥 Platform: ${platform.toString()}**\n
                     **📊 Memory: ${modifyString.formatBytes(process.memoryUsage().heapUsed)} / ${modifyString.formatBytes(process.memoryUsage().heapTotal)}**\n
-                    **💻 CPU: ${cpus()[0].model.split('CPU')[0]}${cpus().length} Cores ${cpus()[0].model.split('CPU ')[1]}**`,
+
+                    **💻 CPU: ${cpu[0]}${cpus().length} Cores ${cpu[1]}**`,
         };
 
         const embed: EmbedBuilder = new EmbedBuilder()

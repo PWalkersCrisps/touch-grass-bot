@@ -1,0 +1,24 @@
+{
+    "shortHand": [
+        "Bytes",
+        "KB",
+        "MB",
+        "GB",
+        "TB",
+        "PB",
+        "EB",
+        "ZB",
+        "YB"
+    ],
+    "longHand": [
+        "Bytes",
+        "KiloBytes",
+        "MegaBytes",
+        "GigaBytes",
+        "TeraBytes",
+        "PetaBytes",
+        "ExaBytes",
+        "ZettaBytes",
+        "YottaBytes"
+    ]
+}
