@@ -6,7 +6,7 @@ module.exports = {
         const roles: string[] = [];
 
         member.roles.cache.forEach((role: any) => {
-            roles.push(role.name);
+            roles.push(role.id);
         });
 
         await profileSchema.findOneAndUpdate({

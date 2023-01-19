@@ -10,7 +10,7 @@ module.exports = {
         const roles: string[] = profileData.roleIDs;
 
         for (const role of roles) {
-            const guildRole = member.guild.roles.cache.find((r: any) => r.name === role);
+            const guildRole = member.guild.roles.cache.find((r: any) => r.id === role);
             if (guildRole) {
                 member.roles.add(guildRole);
             }
