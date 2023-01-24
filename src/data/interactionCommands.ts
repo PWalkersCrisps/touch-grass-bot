@@ -25,4 +25,168 @@ module.exports = [
     new SlashCommandBuilder()
         .setName('serverinfo')
         .setDescription('Shows info about the server.'),
+
+    new SlashCommandBuilder()
+        .setName('trust')
+        .setDescription('Trusts a user or guild.')
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('guild')
+                .setDescription('Trusts a guild.'))
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('user')
+                .setDescription('Trusts a user.')
+                .addUserOption(option =>
+                    option
+                        .setName('user')
+                        .setDescription('The user to trust.')
+                        .setRequired(true))),
+
+    new SlashCommandBuilder()
+        .setName('whois')
+        .setDescription('Shows info about a user.')
+        .addUserOption(option =>
+            option
+                .setName('user')
+                .setDescription('The user to get info about.')),
+
+    new SlashCommandBuilder()
+        .setName('verify')
+        .setDescription('Verifies a user.')
+        .addUserOption(option =>
+            option
+                .setName('user')
+                .setDescription('The user to verify.')
+                .setRequired(true))
+        .addStringOption(option =>
+            option
+                .setName('reason')
+                .setDescription('The reason for verification.'))
+        .addBooleanOption(option =>
+            option
+                .setName('hide')
+                .setDescription('Hide the ban from the general chat.')),
+
+
+    new SlashCommandBuilder()
+        .setName('nsfwban')
+        .setDescription('Bans a user from viewing NSFW channels.')
+        .addUserOption(option =>
+            option
+                .setName('user')
+                .setDescription('The user to ban.')
+                .setRequired(true))
+        .addStringOption(option =>
+            option
+                .setName('reason')
+                .setDescription('The reason for the ban.'))
+        .addBooleanOption(option =>
+            option
+                .setName('id')
+                .setDescription('ID Check'))
+        .addBooleanOption(option =>
+            option
+                .setName('hide')
+                .setDescription('Hide the ban from the general chat.')),
+
+    new SlashCommandBuilder()
+        .setName('modstats')
+        .setDescription('Shows moderation stats for a user.')
+        .addUserOption(option =>
+            option
+                .setName('user')
+                .setDescription('The user to get stats for.')),
+
+    new SlashCommandBuilder()
+        .setName('manualcheck')
+        .setDescription('Manually checks a user.')
+        .addUserOption(option =>
+            option
+                .setName('user')
+                .setDescription('The user to check.')),
+
+    new SlashCommandBuilder()
+        .setName('guildstats')
+        .setDescription('Shows moderation stats for a guild.'),
+
+    new SlashCommandBuilder()
+        .setName('serverroles')
+        .setDescription('Sets the roles for the server.')
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('nsfwbanrole')
+                .setDescription('Sets the NSFW ban role.')
+                .addRoleOption(option =>
+                    option
+                        .setName('role')
+                        .setDescription('The role to set.')
+                        .setRequired(true))
+                .addStringOption(option =>
+                    option
+                        .setName('addremove')
+                        .setDescription('Whether to add or remove a role.')
+                        .addChoices(
+                            { name: 'add', value: 'add' },
+                            { name: 'remove', value: 'remove' }
+                        )
+                        .setRequired(true)))
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('nsfwrole')
+                .setDescription('Sets the NSFW role.')
+                .addRoleOption(option =>
+                    option
+                        .setName('role')
+                        .setDescription('The role to set.')
+                        .setRequired(true))
+                .addStringOption(option =>
+                    option
+                        .setName('addremove')
+                        .setDescription('Whether to add or remove a role.')
+                        .addChoices(
+                            { name: 'add', value: 'add' },
+                            { name: 'remove', value: 'remove' }
+                        )
+                        .setRequired(true)))
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('verifiedrole')
+                .setDescription('Sets the verified role.')
+                .addRoleOption(option =>
+                    option
+                        .setName('role')
+                        .setDescription('The role to set.')
+                        .setRequired(true))
+                .addStringOption(option =>
+                    option
+                        .setName('addremove')
+                        .setDescription('Whether to add or remove a role.')
+                        .addChoices(
+                            { name: 'add', value: 'add' },
+                            { name: 'remove', value: 'remove' }
+                        )
+                        .setRequired(true)))
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('modroles')
+                .setDescription('Sets the mod roles.')
+                .addRoleOption(option =>
+                    option
+                        .setName('role')
+                        .setDescription('The role to set.')
+                        .setRequired(true))
+                .addStringOption(option =>
+                    option
+                        .setName('addremove')
+                        .setDescription('Whether to add or remove a role.')
+                        .addChoices(
+                            { name: 'add', value: 'add' },
+                            { name: 'remove', value: 'remove' }
+                        )
+                        .setRequired(true)))
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('showroles')
+                .setDescription('Shows the roles for the server.')),
 ];
