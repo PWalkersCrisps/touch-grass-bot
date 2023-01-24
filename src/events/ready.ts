@@ -7,6 +7,8 @@ import time from '../modules/time';
 import { config } from 'dotenv';
 config();
 
+import roleSync = require('../modules/roleSync');
+
 module.exports = {
     name: 'ready',
     once: true,
@@ -28,6 +30,8 @@ module.exports = {
             );
 
             console.log(`${ time.currentDate } Successfully reloaded application (/) commands.`);
+
+            roleSync.sync(client);
         }
         catch (error) {
             console.error(`${time.currentDate} ready error: ${error}`);
