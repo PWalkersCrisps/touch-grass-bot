@@ -2,6 +2,8 @@ import { EmbedBuilder, PermissionFlagsBits } from 'discord.js';
 import profileSchema from '../../schemas/profileSchema';
 import guildSchema from '../../schemas/guildSchema';
 import modStats = require('../../schemas/modStats');
+import log = require('../../modules/log');
+import config from '../../data/config.json';
 
 module.exports = {
     name: 'nsfwban',
@@ -47,6 +49,17 @@ module.exports = {
             .setTitle('Please DM (Direct Message) your ID or any official document that has your birthdate on it to the listed staff member.')
             .setDescription('Censor/blur out everything apart from the birthdate and make sure to send 2 pics from 2 different angles.')
             .setFooter({ text: 'Original command created by PureComedi' })
+            .setTimestamp();
+
+        const logEmbed = new EmbedBuilder()
+            .setColor('#0099ff')
+            .setTitle('NSFW Ban')
+            .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
+            .addFields(
+                { name: 'User', value: `<@${member.id}>`, inline: true },
+                { name: 'Reason', value: `${reason}`, inline: true },
+                { name: 'Moderator', value: `<@${interaction.user.id}>`, inline: true },
+            )
             .setTimestamp();
 
         // Give the member the NSFW ban role if it exists
@@ -103,6 +116,7 @@ module.exports = {
         // if the idCheck is true, add idCheckEmbed to the embeds array
         const embeds = (idCheck) ? [banEmbed, nsfwBanRoleEmbed, nsfwRoleEmbed, idCheckEmbed] : [banEmbed, nsfwBanRoleEmbed, nsfwRoleEmbed];
 
+        log.toServer(client, guildData, logEmbed);
         await interaction.reply({ embeds: embeds, content: `**Member porn banned:** <@${member.id}>\n**Moderator:** <@${interaction.user.id}>`, ephemeral: hide });
         await member.send({ embeds: embeds, content: `**Member porn banned:** <@${member.id}>\n**Moderator:** <@${interaction.user.id}>` });
     },

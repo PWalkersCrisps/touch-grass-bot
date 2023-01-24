@@ -2,6 +2,7 @@ import { EmbedBuilder, PermissionFlagsBits } from 'discord.js';
 import profileSchema = require('../../schemas/profileSchema');
 import modStats = require('../../schemas/modStats');
 import guildSchema = require('../../schemas/guildSchema');
+import log = require('../../modules/log');
 
 module.exports = {
     name: 'verify',
@@ -78,8 +79,18 @@ module.exports = {
             )
             .setTimestamp();
 
+        const logEmbed = new EmbedBuilder()
+            .setColor('#0099ff')
+            .setTitle('NSFW Ban')
+            .setThumbnail(user.user.displayAvatarURL({ dynamic: true }))
+            .addFields(
+                { name: 'User', value: `<@${user.id}>`, inline: true },
+                { name: 'Reason', value: `${reason}`, inline: true },
+                { name: 'Moderator', value: `<@${interaction.user.id}>`, inline: true },
+            )
+            .setTimestamp();
+
+        log.toServer(client, guildData, logEmbed);
         return await interaction.reply({ embeds: [embed], ephemeral: hide });
-
-
     },
 };
