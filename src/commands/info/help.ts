@@ -10,6 +10,11 @@ module.exports = {
 
 
         const commandChosen = interaction.options.getString('command');
+
+        if (commandChosen && !client.commands.has(commandChosen)) {
+            return interaction.reply({ content: 'That command does not exist!', ephemeral: true });
+        }
+
         if (!commandChosen) {
             getHelpCategories(interaction);
         }
