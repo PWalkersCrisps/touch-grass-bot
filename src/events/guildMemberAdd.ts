@@ -1,5 +1,5 @@
 import profileRoleSchema from '../schemas/profileRoleSchema';
-import guildSchema = require('../schemas/guildSchema');
+import guildSchema from '../schemas/guildSchema';
 module.exports = {
     name: 'guildMemberAdd',
     async execute(member: any) {

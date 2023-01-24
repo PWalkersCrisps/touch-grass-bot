@@ -1,5 +1,5 @@
 import profileRoleSchema from '../schemas/profileRoleSchema';
-import guildSchema = require('../schemas/guildSchema');
+import guildSchema from '../schemas/guildSchema';
 module.exports = {
     name: 'guildMemberRemove',
     async execute(member: any) {
@@ -26,7 +26,5 @@ module.exports = {
             upsert: true,
             new: true,
         });
-
-        console.log(profileData);
     },
 };
