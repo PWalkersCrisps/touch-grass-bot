@@ -13,4 +13,5 @@ export = model('guilds', new Schema({
         nsfwBanCount: { type: Schema.Types.Number, default: 0 },
         verifyCount: { type: Schema.Types.Number, default: 0 },
     },
+    logChannelID: { type: Schema.Types.String, default: null },
 }));
