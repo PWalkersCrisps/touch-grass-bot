@@ -3,7 +3,7 @@
 import { Client, Collection, GatewayIntentBits } from 'discord.js'; // Import the Client, Collection, and Intents modules from discord.js
 import { readdirSync } from 'fs'; // Import the readdirSync method from the fs module
 import { resolve } from 'path'; // Import the resolve method from the path module
-import { connect } from 'mongoose'; // Import the connect method from the mongoose module
+import { connect, set } from 'mongoose'; // Import the connect method from the mongoose module
 
 import { config } from 'dotenv';
 config(); // Load environment variables from the .env file
@@ -19,6 +19,7 @@ declare module 'discord.js' {
 
 // Connect to the MongoDB server using the URI specified in the MONGODB_SRV environment variable
 connect(process.env.MONGODB_SRV as string);
+set('strictQuery', false);
 
 const client = new Client({ // Create a new Discord client
     intents: [
