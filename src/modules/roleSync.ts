@@ -23,6 +23,7 @@ export = {
 
                 const guildDocument = guildDocuments.find((doc: any) => doc.guildID === guildID);
 
+                if (!guild.available) continue;
                 if (!guildDocument) continue;
                 if (!guildDocument.roles) continue;
 
