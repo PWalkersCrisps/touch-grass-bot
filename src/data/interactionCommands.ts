@@ -68,6 +68,9 @@ module.exports = [
                 .setName('hide')
                 .setDescription('Hide the ban from the general chat.')),
 
+    new SlashCommandBuilder()
+        .setName('about')
+        .setDescription('Shows info about the bot.'),
 
     new SlashCommandBuilder()
         .setName('nsfwban')
@@ -189,4 +192,30 @@ module.exports = [
             subcommand
                 .setName('showroles')
                 .setDescription('Shows the roles for the server.')),
+
+    new SlashCommandBuilder()
+        .setName('imageonly')
+        .setDescription('Toggles image only mode.')
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('add')
+                .setDescription('Adds a channel to image only mode.')
+                .addChannelOption(option =>
+                    option
+                        .setName('channel')
+                        .setDescription('The channel to add.')
+                        .setRequired(true)))
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('remove')
+                .setDescription('Removes a channel from image only mode.')
+                .addChannelOption(option =>
+                    option
+                        .setName('channel')
+                        .setDescription('The channel to remove.')
+                        .setRequired(true)))
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('list')
+                .setDescription('Lists the channels in image only mode.')),
 ];

@@ -8,6 +8,7 @@ import { config } from 'dotenv';
 config();
 
 import roleSync = require('../modules/roleSync');
+import imageOnly = require('../modules/imageOnly');
 
 module.exports = {
     name: 'ready',
@@ -25,13 +26,14 @@ module.exports = {
             console.log(`${ time.currentDate } Started refreshing application (/) commands.`);
 
             await rest.put(
-                Routes.applicationGuildCommands(clientID, testingGuildID),
+                Routes.applicationCommands(clientID),
                 { body: commands },
             );
 
             console.log(`${ time.currentDate } Successfully reloaded application (/) commands.`);
 
             roleSync.sync(client);
+            imageOnly.check(client);
         }
         catch (error) {
             console.error(`${time.currentDate} ready error: ${error}`);

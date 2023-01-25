@@ -14,4 +14,5 @@ export = model('guilds', new Schema({
         verifyCount: { type: Schema.Types.Number, default: 0 },
     },
     logChannelID: { type: Schema.Types.String, default: null },
+    imageOnlyChannels: { type: [Schema.Types.String], default: [] },
 }));
