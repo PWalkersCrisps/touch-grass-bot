@@ -1,5 +1,7 @@
 import profileSchema from '../schemas/profileSchema';
 import guildSchema from '../schemas/guildSchema';
+import { GuildDocument } from '../declarations';
+
 export = {
     sync : async function(client: any) {
         try {

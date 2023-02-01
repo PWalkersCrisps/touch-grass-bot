@@ -1,8 +1,5 @@
 import { Client, Interaction } from 'discord.js';
 
-declare module 'ascii-table';
-declare module 'weighted-random';
-
 interface GuildDocument {
     guildID: string;
     stickyRoles: boolean;
