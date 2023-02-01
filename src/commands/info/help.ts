@@ -2,11 +2,12 @@
 import { EmbedBuilder, APIEmbedField } from 'discord.js';
 import { readdirSync } from 'fs';
 import random from '../../modules/random';
+import { DJSCommand } from '../../declarations';
 
 module.exports = {
     name: 'help',
     description: 'Help command',
-    async execute({ client, interaction }: any) {
+    async execute({ client, interaction, profileData, guildData }: DJSCommand) {
 
 
         const commandChosen = interaction.options.getString('command');

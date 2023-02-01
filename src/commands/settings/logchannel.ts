@@ -1,10 +1,13 @@
+import { DJSCommand } from '../../declarations';
 import guildSchema from '../../schemas/guildSchema';
-import { EmbedBuilder } from 'discord.js';
+import { Client, Interaction, EmbedBuilder } from 'discord.js';
 
 module.exports = {
     name: 'logchannel',
     description: 'Sets the log channel for the server.',
-    async execute({ interaction }: any) {
+    async execute({ client, interaction, profileData, guildData }: DJSCommand) {
+        if (!interaction.isCommand()) return;
+        if (!interaction.guild?.available) return;
 
         const channel = interaction.options.getChannel('channel');
 

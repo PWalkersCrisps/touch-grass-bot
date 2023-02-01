@@ -1,12 +1,13 @@
-import { EmbedBuilder } from 'discord.js';
+import { Client, Interaction, EmbedBuilder } from 'discord.js';
 import profileSchema = require('../../schemas/profileSchema');
 import guildSchema = require('../../schemas/guildSchema');
+import { DJSCommand } from '../../declarations';
 
 module.exports = {
     name: 'trust',
     description: 'Trusts a user or a guild.',
-    async execute({ client, interaction, profileData }: any) {
-
+    async execute({ client, interaction, profileData, guildData }: DJSCommand) {
+        if (!interaction.isCommand()) return;
         if (!profileData.botManager) return interaction.reply({ content: 'You do not have permission to use this command!', ephemeral: true });
 
         if (interaction.options.getSubcommand() === 'user') {
@@ -33,9 +34,7 @@ module.exports = {
 
         }
         else if (interaction.options.getSubcommand() === 'guild') {
-
-            const guildData = await guildSchema.findOne({ guildID: interaction.guild.id });
-
+            if (!interaction.guild?.available) return;
             await guildSchema.findOneAndUpdate({
                 guildID: interaction.guild.id,
             }, {

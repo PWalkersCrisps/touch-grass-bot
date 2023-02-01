@@ -5,7 +5,7 @@ export = {
         try {
 
             const guilds = client.guilds.cache;
-            const guildDocuments = await guildSchema.find();
+            const guildDocuments: GuildDocument[] = await guildSchema.find();
             const guildIDs = guildDocuments.map((doc: any) => doc.guildID);
             const guildsToSync = guilds.filter((guild: any) => guildIDs.includes(guild.id));
 
@@ -35,7 +35,9 @@ export = {
                     const { userID, verify, nsfw } = profileDocument;
                     const member = guild.members.cache.get(userID);
 
-                    if (!(member || userID || verify || nsfw)) continue;
+                    if (!(member || userID || verify || nsfw) || member.user.bot) continue;
+
+                    if (member.roles.highest.position >= guild.members.resolve(client.user.id).roles.highest.position) continue;
 
                     checkForVerifiedRole(guildDocument, guild, member, verify);
                     checkForNSFWBanRole(guildDocument, guild, member, nsfw);

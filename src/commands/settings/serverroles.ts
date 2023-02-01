@@ -1,21 +1,25 @@
+import { DJSCommand } from '../../declarations';
 import guildSchema from '../../schemas/guildSchema';
-import { PermissionFlagsBits, EmbedBuilder } from 'discord.js';
+import { Client, Interaction, PermissionFlagsBits, EmbedBuilder, Role } from 'discord.js';
 
 module.exports = {
     name: 'serverroles',
     description: '',
-    async execute({ client, interaction, guildData }: any) {
-
-        const role = interaction.options.getRole('role');
-        const addremove = interaction.options.getString('addremove');
+    async execute({ client, interaction, profileData, guildData }: DJSCommand) {
+        if (!interaction.isCommand()) return;
+        if (!interaction.guild?.available) return;
+        if (!interaction.member) return interaction.reply({ content: 'There was an error fetching the member', ephemeral: true });
+        if (!guildData) return interaction.reply({ content: 'There is no Guild Data found', ephemeral: true });
 
         if (!(interaction.member.roles.cache.some((roleCheck: any) => guildData.roles.modRoles.includes(roleCheck.id)) || interaction.member.permissions.has(PermissionFlagsBits.ManageGuild))) {
             return interaction.reply({ content: 'You do not have permission to use this command!', ephemeral: true });
         }
 
-        const guildID = interaction.guild.id;
+        const role: Role = interaction.options.getRole('role');
+        const addremove: string = interaction.options.getString('addremove');
+        const guildID: string = interaction.guild.id;
 
-        const embed = new EmbedBuilder()
+        const embed: EmbedBuilder = new EmbedBuilder()
             .setTitle('Server Roles')
             .setDescription('Here are the roles for this server')
             .addFields(
@@ -25,8 +29,8 @@ module.exports = {
                 { name: 'Mod Roles', value: guildData.roles.modRoles.length > 0 ? guildData.roles.modRoles.map((modRole: any) => `<@&${ modRole }>`).join(', ') : 'None' },
             );
 
-
-        switch (interaction.options.getSubcommand()) {
+        const subCommand: string = interaction.options.getSubcommand();
+        switch (subCommand) {
             case 'nsfwbanrole':
                 if (addremove === 'add') {
                     await guildSchema.findOneAndUpdate({

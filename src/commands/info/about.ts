@@ -1,13 +1,17 @@
 import { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } from 'discord.js';
+import { DJSCommand } from '../../declarations';
 
 module.exports = {
     name: 'about',
     description: 'Shows information about the bot',
-    async execute({ client, interaction }: any) {
+    async execute({ client, interaction, profileData, guildData }: DJSCommand) {
+
+        if (!client.user) return interaction.reply({ content: 'There is no client user', ephemeral: true });
+
         const aboutEmbed = new EmbedBuilder()
             .setColor('#0099ff')
             .setTitle('About')
-            .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
+            .setThumbnail(client.user.displayAvatarURL({ dynamic: true } as any))
             .addFields(
                 { name: 'Name', value: `${client.user.username}`, inline: true },
                 { name: 'ID', value: `${client.user.id}`, inline: true },

@@ -1,9 +1,10 @@
 import { EmbedBuilder } from 'discord.js';
+import { DJSCommand } from '../../declarations';
 
 module.exports = {
     name: 'ping',
     description: 'Returns the bot\'s latency and API ping.',
-    async execute({ client, interaction }: any) {
+    async execute({ client, interaction, profileData, guildData }: DJSCommand) {
         interaction.reply('🏓 Pinging....').then(() => {
             const pEmbed: EmbedBuilder = new EmbedBuilder()
                 .setTitle('🏓 Pong!')

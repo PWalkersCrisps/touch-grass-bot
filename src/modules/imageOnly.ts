@@ -1,4 +1,5 @@
 import guildSchema from '../schemas/guildSchema';
+import { Message, TextChannel, Collection } from 'discord.js';
 export = {
     check: async function(client: any) {
         const guildDocuments = await guildSchema.find();
@@ -10,14 +11,14 @@ export = {
             if (!guildDocument.imageOnlyChannels) continue;
 
             for (const channelID of guildDocument.imageOnlyChannels) {
-                const channel = guild.channels.cache.get(channelID);
+                const channel: TextChannel = guild.channels.cache.get(channelID);
                 if (!channel) continue;
 
-                const messages = await channel.messages.fetch();
+                const messages: Collection<string, Message<true>> = await channel.messages.fetch();
 
                 for (const message of messages) {
-                    if (!message.attachments.size) {
-                        message.delete();
+                    if (message[1].attachments.size === 0) {
+                        message[1].delete();
                     }
                 }
             }

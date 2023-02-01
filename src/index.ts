@@ -25,6 +25,7 @@ const client = new Client({ // Create a new Discord client
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildMessages,
     ],
     shards: 'auto',
 });

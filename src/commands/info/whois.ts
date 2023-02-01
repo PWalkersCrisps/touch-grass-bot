@@ -1,10 +1,11 @@
 import { EmbedBuilder } from 'discord.js';
 import profileSchema = require('../../schemas/profileSchema');
+import { DJSCommand } from '../../declarations';
 
 module.exports = {
     name: 'whois',
     description: 'Returns information about a user.',
-    async execute({ client, interaction, profileData }: any) {
+    async execute({ client, interaction, profileData, guildData }: DJSCommand) {
 
         const user = interaction.options.getUser('user') || interaction.user;
         const member = interaction.guild.members.cache.get(user.id);
