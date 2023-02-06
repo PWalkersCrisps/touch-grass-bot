@@ -8,10 +8,12 @@ module.exports = {
     async execute({ client, interaction, profileData, guildData }: DJSCommand) {
         // Exit if not a command
         if (!interaction.isCommand()) return;
+        if (!interaction.guild) return;
+        if (!guildData) return;
 
         // Check if user has permission to manage channels
         const memberPermissions: Readonly<PermissionsBitField> = interaction.member?.permissions as Readonly<PermissionsBitField>;
-        if (!memberPermissions.has(PermissionFlagsBits.ManageChannels)) {
+        if (!(interaction.member.roles.cache.some((roleCheck: any) => guildData.roles.modRoles.includes(roleCheck.id)) || interaction.member.permissions.has(PermissionFlagsBits.ManageGuild))) {
             return interaction.reply({
                 content: 'You do not have permission to use this command!',
                 ephemeral: true,
