@@ -24,7 +24,7 @@ export = {
             }
         }
 
-        delay(5 * 60).then(() => { this.check(client); });
+        delay(60 * 60).then(() => { this.check(client); });
     },
 }
 
