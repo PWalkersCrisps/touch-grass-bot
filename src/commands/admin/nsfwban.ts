@@ -79,18 +79,20 @@ module.exports = {
             nsfwRoleEmbed.setDescription(nsfwRoleChanges);
         }
 
-        await profileSchema.findOneAndUpdate({
-            userID: member.id,
-        }, {
-            nsfw: {
-                nsfwBanned: true,
-                nsfwBanReason: reason || 'No reason provided',
-                nsfwBanDate: new Date(),
-                nsfwBannedBy: interaction.user.id,
-            },
-        }, {
-            upsert: true,
-        });
+        if (guildData.syncExports) {
+            await profileSchema.findOneAndUpdate({
+                userID: member.id,
+            }, {
+                nsfw: {
+                    nsfwBanned: true,
+                    nsfwBanReason: reason || 'No reason provided',
+                    nsfwBanDate: new Date(),
+                    nsfwBannedBy: interaction.user.id,
+                },
+            }, {
+                upsert: true,
+            });
+        }
 
         await modStats.findOneAndUpdate({
             userID: interaction.user.id,

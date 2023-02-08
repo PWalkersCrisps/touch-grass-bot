@@ -14,6 +14,8 @@ interface GuildDocument {
         nsfwBanCount: number;
         verifyCount: number;
     };
+    syncImports: boolean;
+    syncExports: boolean;
     logChannelId: string;
     imageOnlyChannels: string[];
 }

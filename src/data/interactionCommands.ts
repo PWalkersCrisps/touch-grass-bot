@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
+import { SlashCommandBuilder, PermissionFlagsBits, SlashCommandSubcommandBuilder } from 'discord.js';
 
 module.exports = [
 
@@ -218,4 +218,34 @@ module.exports = [
             subcommand
                 .setName('list')
                 .setDescription('Lists the channels in image only mode.')),
+
+    new SlashCommandBuilder()
+        .setName('rolesync')
+        .setDescription('Toggles role sync.')
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('import')
+                .setDescription('Imports roles from the server.')
+                .addStringOption(option =>
+                    option
+                        .setName('choice')
+                        .setDescription('Whether to turn on role importing from db.')
+                        .addChoices(
+                            { name: 'on', value: 'on' },
+                            { name: 'off', value: 'off' }
+                        )
+                        .setRequired(true)))
+        .addSubcommand(subcommand =>
+            subcommand
+                .setName('export')
+                .setDescription('Exports roles to the server.')
+                .addStringOption(option =>
+                    option
+                        .setName('choice')
+                        .setDescription('Whether to turn on role exporting to db.')
+                        .addChoices(
+                            { name: 'on', value: 'on' },
+                            { name: 'off', value: 'off' }
+                        )
+                        .setRequired(true))),
 ];

@@ -13,6 +13,8 @@ export = model('guilds', new Schema({
         nsfwBanCount: { type: Schema.Types.Number, default: 0 },
         verifyCount: { type: Schema.Types.Number, default: 0 },
     },
+    syncImports: { type: Schema.Types.Boolean, default: true },
+    syncExports: { type: Schema.Types.Boolean, default: true },
     logChannelID: { type: Schema.Types.String, default: null },
     imageOnlyChannels: { type: [Schema.Types.String], default: [] },
 }));

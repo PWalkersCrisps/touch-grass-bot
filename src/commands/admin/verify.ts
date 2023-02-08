@@ -3,11 +3,12 @@ import profileSchema = require('../../schemas/profileSchema');
 import modStats = require('../../schemas/modStats');
 import guildSchema = require('../../schemas/guildSchema');
 import log = require('../../modules/log');
+import { DJSCommand } from '../../declarations';
 
 module.exports = {
     name: 'verify',
     description: 'Verifies a user or unverifies a user if they are already verified.',
-    async execute({ client, interaction, profileData, guildData }: any) {
+    async execute({ client, interaction, profileData, guildData }: DJSCommand) {
 
         const user = interaction.options.getUser('user');
         const reason = interaction.options.getString('reason');
@@ -36,18 +37,20 @@ module.exports = {
             }
         }
 
-        await profileSchema.findOneAndUpdate({
-            userID: user.id,
-        }, {
-            verify: {
-                verified: !mentionedProfileData.verify?.verified || true,
-                verificationReason: reason || 'No reason provided.',
-                verifiedBy: interaction.user.id,
-                verificationDate: Date.now(),
-            },
-        }, {
-            upsert: true,
-        });
+        if (guildData.syncExports) {
+            await profileSchema.findOneAndUpdate({
+                userID: user.id,
+            }, {
+                verify: {
+                    verified: !mentionedProfileData.verify?.verified || true,
+                    verificationReason: reason || 'No reason provided.',
+                    verifiedBy: interaction.user.id,
+                    verificationDate: Date.now(),
+                },
+            }, {
+                upsert: true,
+            });
+        }
 
         await modStats.findOneAndUpdate({
             userID: interaction.user.id,

@@ -23,11 +23,12 @@ export = {
 
             for (const [guildID, guild] of guildsToSync) {
 
-                const guildDocument = guildDocuments.find((doc: any) => doc.guildID === guildID);
+                const guildDocument: GuildDocument | undefined = guildDocuments.find((doc: any) => doc.guildID === guildID);
 
                 if (!guild.available) continue;
                 if (!guildDocument) continue;
                 if (!guildDocument.roles) continue;
+                if (!guildDocument.syncImports) continue;
 
                 const guildMembers = await guild.members.fetch();
                 const profileDocuments = await profileSchema.find();
