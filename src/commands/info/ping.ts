@@ -9,11 +9,7 @@ module.exports = {
             const pEmbed: EmbedBuilder = new EmbedBuilder()
                 .setTitle('🏓 Pong!')
                 .setColor(0x0000ff)
-                .setDescription(
-                    `Latency: ${Math.floor(
-                        interaction.createdTimestamp - interaction.createdTimestamp,
-                    )}ms\nAPI Latency: ${client.ws.ping}ms`,
-                );
+                .setDescription(`Latency: ${Math.floor(interaction.createdTimestamp - interaction.createdTimestamp)}ms\nAPI Latency: ${client.ws.ping}ms`);
             interaction.editReply({ embeds: [pEmbed] });
         });
     },
