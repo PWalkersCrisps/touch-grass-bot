@@ -7,7 +7,7 @@ module.exports = {
         const guildData = await guildSchema.findOne({ guildID: member.guild.id });
 
         if (!guildData) return;
-        if (!guildData?.stickyRoles) return;
+        if (!guildData.stickyRoles) return;
 
         const roles: string[] = [];
 
@@ -15,7 +15,7 @@ module.exports = {
             roles.push(role.id);
         });
 
-        const profileData = await profileRoleSchema.findOneAndUpdate({
+        await profileRoleSchema.findOneAndUpdate({
             userID: member.id,
             guildID: member.guild.id,
         }, {
@@ -24,7 +24,6 @@ module.exports = {
             roleIDs: roles,
         }, {
             upsert: true,
-            new: true,
         });
     },
 };
