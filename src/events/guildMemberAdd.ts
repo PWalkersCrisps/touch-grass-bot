@@ -16,7 +16,12 @@ module.exports = {
         for (const role of roles) {
             const guildRole = member.guild.roles.cache.find((r: any) => r.id === role);
             if (guildRole) {
-                member.roles.add(guildRole);
+                try {
+                    member.roles.add(guildRole);
+                }
+                catch (error) {
+                    console.error(error);
+                }
             }
         }
 
