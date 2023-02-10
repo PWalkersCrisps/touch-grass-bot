@@ -63,7 +63,9 @@ module.exports = {
             .setTimestamp();
 
         // Give the member the NSFW ban role if it exists
-        if (interaction.guild.roles.cache.has(guildData.nsfwBanRole)) {
+        // Check if member is in this guild
+
+        if (interaction.guild.roles.cache.has(guildData.nsfwBanRole) && interaction.guild.members.cache.has(member.id)) {
             await member.roles.add(guildData.nsfwBanRole);
             const nsfwBanRoleChanges = (member.roles.cache.has(guildData.nsfwBanRole)) ? `Added <@&${guildData.nsfwBanRole}> to <@${member.id}>` : 'No changes were made';
 

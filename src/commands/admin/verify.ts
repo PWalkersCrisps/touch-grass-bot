@@ -10,7 +10,7 @@ module.exports = {
     description: 'Verifies a user or unverifies a user if they are already verified.',
     async execute({ client, interaction, profileData, guildData }: DJSCommand) {
 
-        const user = interaction.options.getUser('user');
+        const member = interaction.options.getMember('user');
         const reason = interaction.options.getString('reason');
         const hide = interaction.options.getBoolean('hide');
 
@@ -21,25 +21,25 @@ module.exports = {
             return interaction.reply({ content: 'You do not have permission to use this command!', ephemeral: true });
         }
 
-        if (!user) return interaction.reply({ content: 'Please specify a user!', ephemeral: true });
+        if (!member) return interaction.reply({ content: 'Please specify a member!', ephemeral: true });
 
-        const mentionedProfileData = await profileSchema.findOne({ userID: user.id });
+        const mentionedProfileData = await profileSchema.findOne({ userID: member.id });
 
         if (!mentionedProfileData) return interaction.reply({ content: 'There was an error executing this command', ephemeral: true });
 
-        if (interaction.guild.roles.cache.has(guildData.roles?.verifiedRole)) {
+        if (interaction.guild.roles.cache.has(guildData.roles?.verifiedRole) && interaction.guild.members.cache.has(member.id)) {
 
             if (mentionedProfileData.verify?.verified) {
-                await interaction.guild.members.cache.get(user.id).roles.remove(guildData.roles?.verifiedRole);
+                await member.roles.remove(guildData.roles?.verifiedRole);
             }
             else {
-                await interaction.guild.members.cache.get(user.id).roles.add(guildData.roles?.verifiedRole);
+                await member.roles.add(guildData.roles?.verifiedRole);
             }
         }
 
         if (guildData.syncExports) {
             await profileSchema.findOneAndUpdate({
-                userID: user.id,
+                userID: member.id,
             }, {
                 verify: {
                     verified: !mentionedProfileData.verify?.verified || true,
@@ -75,8 +75,8 @@ module.exports = {
 
         const embed = new EmbedBuilder()
             .setColor('#0099ff')
-            .setTitle('User Verification')
-            .setDescription(`User ${user.tag} has been ${mentionedProfileData.verify?.verified ? 'unverified' : 'verified'}.`)
+            .setTitle('Member Verification')
+            .setDescription(`Member ${member.tag} has been ${mentionedProfileData.verify?.verified ? 'unverified' : 'verified'}.`)
             .addFields(
                 { name: 'Reason', value: reason || 'No reason provided.' }
             )
@@ -85,9 +85,9 @@ module.exports = {
         const logEmbed = new EmbedBuilder()
             .setColor('#0099ff')
             .setTitle('NSFW Ban')
-            .setThumbnail(user.user.displayAvatarURL({ dynamic: true }))
+            .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
             .addFields(
-                { name: 'User', value: `<@${user.id}>`, inline: true },
+                { name: 'Member', value: `<@${member.id}>`, inline: true },
                 { name: 'Reason', value: `${reason}`, inline: true },
                 { name: 'Moderator', value: `<@${interaction.user.id}>`, inline: true },
             )
