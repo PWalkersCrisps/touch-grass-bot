@@ -248,4 +248,13 @@ module.exports = [
                             { name: 'off', value: 'off' }
                         )
                         .setRequired(true))),
+
+    new SlashCommandBuilder()
+        .setName('logchannel')
+        .setDescription('Sets the log channel.')
+        .addChannelOption(option =>
+            option
+                .setName('channel')
+                .setDescription('The channel to set.')
+                .setRequired(true)),
 ];
