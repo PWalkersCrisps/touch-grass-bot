@@ -23,13 +23,6 @@ module.exports = {
             return interaction.reply({ content: 'You do not have permission to use this command!', ephemeral: true });
         }
 
-        const mentionedProfileData: ProfileDocument = await profileSchema.findOneAndUpdate({
-            userID: member.id,
-        }, {}, {
-            upsert: true,
-            new: true,
-        });
-
         const banEmbed = new EmbedBuilder()
             .setColor('#0099ff')
             .setTitle('NSFW Ban')

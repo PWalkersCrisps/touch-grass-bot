@@ -23,13 +23,6 @@ module.exports = {
 
         if (!member) return interaction.reply({ content: 'Please specify a member!', ephemeral: true });
 
-        const mentionedProfileData: ProfileDocument = await profileSchema.findOneAndUpdate({
-            userID: member.id,
-        }, {}, {
-            upsert: true,
-            new: true,
-        });
-
         if (interaction.guild.roles.cache.has(guildData.roles?.verifiedRole) && interaction.guild.members.cache.has(member.id)) {
             await member.roles.add(guildData.roles?.verifiedRole);
         }
@@ -39,7 +32,7 @@ module.exports = {
                 userID: member.id,
             }, {
                 verify: {
-                    verified: !mentionedProfileData.verify?.verified || true,
+                    verified: true,
                     verificationReason: reason || 'No reason provided.',
                     verifiedBy: interaction.user.id,
                     verificationDate: Date.now(),
@@ -73,7 +66,7 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setColor('#0099ff')
             .setTitle('Member Verification')
-            .setDescription(`Member ${member.tag} has been ${mentionedProfileData.verify?.verified ? 'unverified' : 'verified'}.`)
+            .setDescription(`Member <@${member.id}> has been verified.`)
             .addFields(
                 { name: 'Reason', value: reason || 'No reason provided.' }
             )
