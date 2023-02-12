@@ -4,12 +4,12 @@ import guildSchema from '../../schemas/guildSchema';
 import modStats = require('../../schemas/modStats');
 import log = require('../../modules/log');
 import config from '../../data/config.json';
-import { ProfileDocument } from '../../declarations';
+import { DJSCommand, ProfileDocument } from '../../declarations';
 
 module.exports = {
     name: 'nsfwban',
     description: 'Bans a user from viewing NSFW channels.',
-    async execute({ client, interaction, guildData }: any) {
+    async execute({ client, interaction, guildData }: DJSCommand) {
 
         const member = interaction.options.getMember('user');
         const reason = interaction.options.getString('reason') || 'No reason provided';
@@ -62,18 +62,18 @@ module.exports = {
         // Give the member the NSFW ban role if it exists
         // Check if member is in this guild
 
-        if (interaction.guild.roles.cache.has(guildData.nsfwBanRole) && interaction.guild.members.cache.has(member.id)) {
-            await member.roles.add(guildData.nsfwBanRole);
-            const nsfwBanRoleChanges = (member.roles.cache.has(guildData.nsfwBanRole)) ? `Added <@&${guildData.nsfwBanRole}> to <@${member.id}>` : 'No changes were made';
+        if (interaction.guild.roles.cache.has(guildData.roles?.nsfwBanRole) && interaction.guild.members.cache.has(member.id)) {
+            await member.roles.add(guildData.roles?.nsfwBanRole);
+            const nsfwBanRoleChanges = (member.roles.cache.has(guildData.roles?.nsfwBanRole)) ? `Added <@&${guildData.roles?.nsfwBanRole}> to <@${member.id}>` : 'No changes were made';
 
             nsfwBanRoleEmbed.setDescription(nsfwBanRoleChanges);
         }
 
         // Remove the member from the NSFW role if it exists in guild
         if (interaction.guild.roles.cache.has(guildData.roles?.nsfwRole)) {
-            await member.roles.remove(guildData.nsfwRole);
+            await member.roles.remove(guildData.roles?.nsfwRole);
 
-            const nsfwRoleChanges = (member.roles.cache.has(guildData.nsfwRole)) ? `Removed <@&${guildData.nsfwRole}> from <@${member.id}>` : 'No changes were made';
+            const nsfwRoleChanges = (member.roles.cache.has(guildData.roles?.nsfwRole)) ? `Removed <@&${guildData.roles?.nsfwRole}> from <@${member.id}>` : 'No changes were made';
 
             nsfwRoleEmbed.setDescription(nsfwRoleChanges);
         }
