@@ -10,21 +10,37 @@ module.exports = {
         if (!interaction.guild?.available) return;
 
         const channel = interaction.options.getChannel('channel');
+        const type = interaction.options.getString('type');
 
         if (!channel) return interaction.reply({ content: 'Please specify a channel!', ephemeral: true });
 
-        await guildSchema.findOneAndUpdate({
-            guildID: interaction.guild.id,
-        }, {
-            logChannel: channel.id,
-        }, {
-            upsert: true,
-        });
+        if (type === 'nsfwban') {
+            await guildSchema.findOneAndUpdate({
+                guildID: interaction.guild.id,
+            }, {
+                nsfwBanLogChannelID: channel.id,
+            }, {
+                upsert: true,
+            });
+        }
+        else if (type === 'verify') {
+            await guildSchema.findOneAndUpdate({
+                guildID: interaction.guild.id,
+            }, {
+                verificationLogChannelID: channel.id,
+            }, {
+                upsert: true,
+            });
+        }
+        else {
+            return interaction.reply({ content: 'Please specify a valid type!', ephemeral: true });
+        }
+
 
         const embed = new EmbedBuilder()
             .setColor('#0099ff')
             .setTitle('Log Channel')
-            .setDescription(`Log channel has been set to ${channel}`)
+            .setDescription(`${(type === 'nsfwban' ? 'NSFW Ban' : 'Verify')} log channel has been set to ${channel}`)
             .setTimestamp();
 
         await interaction.reply({ embeds: [embed] });

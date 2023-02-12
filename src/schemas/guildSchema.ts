@@ -15,6 +15,7 @@ export = model('guilds', new Schema({
     },
     syncImports: { type: Schema.Types.Boolean, default: true },
     syncExports: { type: Schema.Types.Boolean, default: true },
-    logChannelID: { type: Schema.Types.String, default: null },
+    nsfwBanLogChannelID: { type: Schema.Types.String, default: null },
+    verificationLogChannelID: { type: Schema.Types.String, default: null },
     imageOnlyChannels: { type: [Schema.Types.String], default: [] },
 }));

@@ -256,5 +256,14 @@ module.exports = [
             option
                 .setName('channel')
                 .setDescription('The channel to set.')
+                .setRequired(true))
+        .addStringOption(option =>
+            option
+                .setName('type')
+                .setDescription('The type of log channel.')
+                .addChoices(
+                    { name: 'NSFW Ban', value: 'nsfwban' },
+                    { name: 'Verification', value: 'verify' },
+                )
                 .setRequired(true)),
 ];

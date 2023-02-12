@@ -83,7 +83,7 @@ module.exports = {
             )
             .setTimestamp();
 
-        log.toServer(client, guildData, logEmbed);
+        log.toServer(client, guildData, logEmbed, 'verify');
         return await interaction.reply({ embeds: [embed], ephemeral: hide });
     },
 };

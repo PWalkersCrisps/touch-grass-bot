@@ -117,7 +117,7 @@ module.exports = {
         // if the idCheck is true, add idCheckEmbed to the embeds array
         const embeds = (idCheck) ? [banEmbed, nsfwBanRoleEmbed, nsfwRoleEmbed, idCheckEmbed] : [banEmbed, nsfwBanRoleEmbed, nsfwRoleEmbed];
 
-        log.toServer(client, guildData, logEmbed);
+        log.toServer(client, guildData, logEmbed, 'nsfwban');
         await interaction.reply({ embeds: embeds, content: `**Member porn banned:** <@${member.id}>\n**Moderator:** <@${interaction.user.id}>`, ephemeral: hide });
         await member.send({ embeds: embeds, content: `**Member porn banned:** <@${member.id}>\n**Moderator:** <@${interaction.user.id}>` });
     },
