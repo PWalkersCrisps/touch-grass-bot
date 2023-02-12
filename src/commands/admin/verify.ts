@@ -74,7 +74,7 @@ module.exports = {
 
         const logEmbed = new EmbedBuilder()
             .setColor('#0099ff')
-            .setTitle('NSFW Ban')
+            .setTitle('Verification')
             .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
             .addFields(
                 { name: 'Member', value: `<@${member.id}>`, inline: true },
