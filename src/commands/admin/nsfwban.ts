@@ -4,6 +4,7 @@ import guildSchema from '../../schemas/guildSchema';
 import modStats = require('../../schemas/modStats');
 import log = require('../../modules/log');
 import config from '../../data/config.json';
+import { ProfileDocument } from '../../declarations';
 
 module.exports = {
     name: 'nsfwban',
@@ -22,9 +23,12 @@ module.exports = {
             return interaction.reply({ content: 'You do not have permission to use this command!', ephemeral: true });
         }
 
-        const mentionedProfileData = await profileSchema.findOne({ userID: member.id });
-
-        if (!mentionedProfileData) return interaction.reply({ content: 'There was an error executing this command', ephemeral: true });
+        const mentionedProfileData: ProfileDocument = await profileSchema.findOneAndUpdate({
+            userID: member.id,
+        }, {}, {
+            upsert: true,
+            new: true,
+        });
 
         const banEmbed = new EmbedBuilder()
             .setColor('#0099ff')

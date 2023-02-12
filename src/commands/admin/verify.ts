@@ -3,7 +3,7 @@ import profileSchema = require('../../schemas/profileSchema');
 import modStats = require('../../schemas/modStats');
 import guildSchema = require('../../schemas/guildSchema');
 import log = require('../../modules/log');
-import { DJSCommand } from '../../declarations';
+import { DJSCommand, ProfileDocument } from '../../declarations';
 
 module.exports = {
     name: 'verify',
@@ -23,18 +23,15 @@ module.exports = {
 
         if (!member) return interaction.reply({ content: 'Please specify a member!', ephemeral: true });
 
-        const mentionedProfileData = await profileSchema.findOne({ userID: member.id });
-
-        if (!mentionedProfileData) return interaction.reply({ content: 'There was an error executing this command', ephemeral: true });
+        const mentionedProfileData: ProfileDocument = await profileSchema.findOneAndUpdate({
+            userID: member.id,
+        }, {}, {
+            upsert: true,
+            new: true,
+        });
 
         if (interaction.guild.roles.cache.has(guildData.roles?.verifiedRole) && interaction.guild.members.cache.has(member.id)) {
-
-            if (mentionedProfileData.verify?.verified) {
-                await member.roles.remove(guildData.roles?.verifiedRole);
-            }
-            else {
-                await member.roles.add(guildData.roles?.verifiedRole);
-            }
+            await member.roles.add(guildData.roles?.verifiedRole);
         }
 
         if (guildData.syncExports) {
