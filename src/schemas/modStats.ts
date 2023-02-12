@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose';
 export = model('stats', new Schema({
-    userID: { type: Schema.Types.String, require: true, unique: true },
-    guildID: { type: Schema.Types.String, require: true, unique: true },
+    userID: { type: Schema.Types.String, require: true },
+    guildID: { type: Schema.Types.String, require: true },
     nsfwBanCount: { type: Schema.Types.Number, default: 0 },
     verifyCount: { type: Schema.Types.Number, default: 0 },
 }));
