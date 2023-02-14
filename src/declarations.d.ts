@@ -53,7 +53,7 @@ interface ProfileDocument {
 
 interface DJSCommand {
     client: Client;
-    interaction: any;
+    interaction: Interaction;
     profileData: ProfileDocument;
     guildData: GuildDocument | undefined;
 }
