@@ -5,6 +5,7 @@ module.exports = {
     name: 'ping',
     description: 'Returns the bot\'s latency and API ping.',
     async execute({ client, interaction, profileData, guildData }: DJSCommand) {
+        if (!interaction.isCommand()) return;
         interaction.reply('🏓 Pinging....').then(() => {
             const pEmbed: EmbedBuilder = new EmbedBuilder()
                 .setTitle('🏓 Pong!')

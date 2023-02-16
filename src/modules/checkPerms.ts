@@ -1,5 +1,5 @@
 import { Interaction, PermissionFlagsBits } from 'discord.js';
-import { GuildDocument } from '../types/declarations';
+import { GuildDocument } from '../declarations';
 
 export function checkServerMod(interaction: Interaction, guildData: GuildDocument) {
     if (!interaction.inCachedGuild()) return;

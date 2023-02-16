@@ -1,10 +1,13 @@
 import { EmbedBuilder } from 'discord.js';
 import modStats from '../../schemas/modStats';
+import { DJSCommand } from '../../declarations';
 
 module.exports = {
     name: 'modstats',
     description: 'Shows the modstats of a user',
-    async execute({ client, interaction }: any) {
+    async execute({ client, interaction }: DJSCommand) {
+        if (!interaction.isCommand()) return;
+        if (!interaction.guild?.available) return;
 
         const user = interaction.options.getUser('user') || interaction.user;
 
@@ -15,7 +18,7 @@ module.exports = {
         const modStatsEmbed = new EmbedBuilder()
             .setColor('#0099ff')
             .setTitle('Mod Stats')
-            .setThumbnail(user.displayAvatarURL({ dynamic: true }))
+            .setThumbnail(user.displayAvatarURL())
             .addFields(
                 { name: 'User', value: `<@${user.id}>`, inline: true },
                 { name: 'NSFW Bans', value: `${modStatsData.nsfwBanCount}`, inline: true },

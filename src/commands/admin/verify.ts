@@ -1,4 +1,4 @@
-import { EmbedBuilder, PermissionFlagsBits } from 'discord.js';
+import { EmbedBuilder, GuildMember, PermissionFlagsBits } from 'discord.js';
 import profileSchema = require('../../schemas/profileSchema');
 import modStats = require('../../schemas/modStats');
 import guildSchema = require('../../schemas/guildSchema');
@@ -9,10 +9,14 @@ module.exports = {
     name: 'verify',
     description: 'Verifies a user or unverifies a user if they are already verified.',
     async execute({ client, interaction, profileData, guildData }: DJSCommand) {
+        if (!interaction.isCommand()) return;
+        if (!interaction.guild?.available) return;
+        if (!interaction.inCachedGuild()) return;
+        if (!interaction.isChatInputCommand()) return;
 
-        const member = interaction.options.getMember('user');
-        const reason = interaction.options.getString('reason');
-        const hide = interaction.options.getBoolean('hide');
+        const member: GuildMember = interaction.options.getMember('user') as GuildMember;
+        const reason: string = interaction.options.getString('reason') as string;
+        const hide: boolean = interaction.options.getBoolean('hide') as boolean;
 
         if (!guildData) return interaction.reply({ content: 'There was an error executing this command', ephemeral: true });
         if (!guildData.trusted) return interaction.reply({ content: 'This guild is not trusted!', ephemeral: true });
@@ -75,7 +79,7 @@ module.exports = {
         const logEmbed = new EmbedBuilder()
             .setColor('#0099ff')
             .setTitle('Verification')
-            .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
+            .setThumbnail(member.user.displayAvatarURL())
             .addFields(
                 { name: 'Member', value: `<@${member.id}>`, inline: true },
                 { name: 'Reason', value: `${reason}`, inline: true },

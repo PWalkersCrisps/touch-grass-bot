@@ -47,7 +47,7 @@ function getHelpCategories(interaction: any) {
     const embed: EmbedBuilder = new EmbedBuilder()
         .setTitle('Commands')
         .setDescription('Use `/help [command]` to get more info about a command')
-        .setFooter({ text: `Requested by ${interaction.user.username}`, iconURL: interaction.user.avatarURL({ dynamic: true }) })
+        .setFooter({ text: `Requested by ${interaction.user.username}`, iconURL: interaction.user.avatarURL() })
         .setColor(random.randomHexColour())
         .addFields(categories);
 
@@ -62,7 +62,7 @@ function getHelpCommand(client: any, interaction: any, commandChosen: string) {
             { name: 'Command:', value: command.name ? `\`${command.name}\`` : 'No name for this command' },
             { name: 'Description:', value: command.description ? command.description : 'No description for this command.' },
         )
-        .setFooter({ text: `Requested by ${interaction.user.username}`, iconURL: interaction.user.avatarURL({ dynamic: true }) })
+        .setFooter({ text: `Requested by ${interaction.user.username}`, iconURL: interaction.user.avatarURL() })
         .setColor(random.randomHexColour());
     return interaction.reply({ embeds: [embed] });
 }

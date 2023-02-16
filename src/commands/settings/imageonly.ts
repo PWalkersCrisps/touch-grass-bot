@@ -9,6 +9,8 @@ module.exports = {
         // Exit if not a command
         if (!interaction.isCommand()) return;
         if (!interaction.guild) return;
+        if (!interaction.inCachedGuild()) return;
+        if (!interaction.isChatInputCommand()) return;
         if (!guildData) return;
 
         // Check if user has permission to manage channels
@@ -26,14 +28,9 @@ module.exports = {
         switch (subCommand) {
             case 'add': {
                 // Get channel from options
-                const channel: Channel = interaction.options.getChannel('channel');
-
-                if (!channel) {
-                    return interaction.reply({
-                        content: 'Please specify a channel!',
-                        ephemeral: true,
-                    });
-                }
+                const channel: Channel = interaction.options.getChannel('channel') as Channel;
+                if (!channel) return interaction.reply({ content: 'Please specify a channel!', ephemeral: true });
+                if (!channel.isTextBased()) return interaction.reply({ content: 'Please specify a text channel!', ephemeral: true });
 
                 // Add channel to imageOnlyChannels array
                 await guildSchema.findOneAndUpdate({
@@ -57,8 +54,9 @@ module.exports = {
                 break;
             }
             case 'remove': {
-                // Get channel from options
-                const channel: Channel = interaction.options.getChannel('channel');
+                const channel: Channel = interaction.options.getChannel('channel') as Channel;
+                if (!channel) return interaction.reply({ content: 'Please specify a channel!', ephemeral: true });
+                if (!channel.isTextBased()) return interaction.reply({ content: 'Please specify a text channel!', ephemeral: true });
 
                 if (!channel) {
                     return interaction.reply({

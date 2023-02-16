@@ -1,17 +1,21 @@
-import { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } from 'discord.js';
+import { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, AnyComponentBuilder, APIActionRowComponent, APIMessageActionRowComponent } from 'discord.js';
 import { DJSCommand } from '../../declarations';
 
 module.exports = {
     name: 'about',
     description: 'Shows information about the bot',
     async execute({ client, interaction, profileData, guildData }: DJSCommand) {
+        if (!interaction.isCommand()) return;
+        if (!interaction.guild?.available) return;
+        if (!interaction.inCachedGuild()) return;
+        if (!interaction.isChatInputCommand()) return;
 
         if (!client.user) return interaction.reply({ content: 'There is no client user', ephemeral: true });
 
         const aboutEmbed = new EmbedBuilder()
             .setColor('#0099ff')
             .setTitle('About')
-            .setThumbnail(client.user.displayAvatarURL({ dynamic: true } as any))
+            .setThumbnail(client.user.displayAvatarURL())
             .addFields(
                 { name: 'Name', value: `${client.user.username}`, inline: true },
                 { name: 'ID', value: `${client.user.id}`, inline: true },
@@ -22,7 +26,7 @@ module.exports = {
             )
             .setTimestamp();
 
-        const aboutActions = new ActionRowBuilder()
+        const aboutActions: any = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
                     .setStyle(ButtonStyle.Link)
@@ -32,7 +36,7 @@ module.exports = {
                     .setStyle(ButtonStyle.Link)
                     .setLabel('Support Server')
                     .setURL('https://discord.gg/2Z3Z4Z2'),
-            );
+            ) ;
 
         interaction.reply({ embeds: [aboutEmbed], components: [aboutActions] });
     },

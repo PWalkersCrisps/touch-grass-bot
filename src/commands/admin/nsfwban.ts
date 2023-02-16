@@ -1,4 +1,4 @@
-import { EmbedBuilder, PermissionFlagsBits } from 'discord.js';
+import { EmbedBuilder, GuildMember, PermissionFlagsBits } from 'discord.js';
 import profileSchema from '../../schemas/profileSchema';
 import guildSchema from '../../schemas/guildSchema';
 import modStats = require('../../schemas/modStats');
@@ -10,8 +10,12 @@ module.exports = {
     name: 'nsfwban',
     description: 'Bans a user from viewing NSFW channels.',
     async execute({ client, interaction, guildData }: DJSCommand) {
+        if (!interaction.isCommand()) return;
+        if (!interaction.guild?.available) return;
+        if (!interaction.inCachedGuild()) return;
+        if (!interaction.isChatInputCommand()) return;
 
-        const member = interaction.options.getMember('user');
+        const member = interaction.options.getMember('member') as GuildMember;
         const reason = interaction.options.getString('reason') || 'No reason provided';
         const idCheck = interaction.options.getBoolean('id') || false;
         const hide = interaction.options.getBoolean('hide') || false;
@@ -26,7 +30,7 @@ module.exports = {
         const banEmbed = new EmbedBuilder()
             .setColor('#0099ff')
             .setTitle('NSFW Ban')
-            .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
+            .setThumbnail(member.user.displayAvatarURL())
             .addFields(
                 { name: 'User', value: `<@${member.id}>`, inline: true },
                 { name: 'Reason', value: `${reason}`, inline: true },
@@ -51,7 +55,7 @@ module.exports = {
         const logEmbed = new EmbedBuilder()
             .setColor('#0099ff')
             .setTitle('NSFW Ban')
-            .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
+            .setThumbnail(member.user.displayAvatarURL())
             .addFields(
                 { name: 'User', value: `<@${member.id}>`, inline: true },
                 { name: 'Reason', value: `${reason}`, inline: true },

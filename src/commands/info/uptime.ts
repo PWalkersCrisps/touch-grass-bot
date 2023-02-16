@@ -6,7 +6,7 @@ module.exports = {
     name: 'uptime',
     description: 'Check how long has the bot been online.',
     async execute({ client, interaction, profileData, guildData }: DJSCommand) {
-
+        if (!interaction.isCommand()) return;
         const duration = time.parseDur(client.uptime as any);
         const pEmbed: EmbedBuilder = new EmbedBuilder()
             .setTitle(':inbox_tray: Online for')

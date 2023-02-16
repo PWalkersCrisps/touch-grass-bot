@@ -1,4 +1,4 @@
-import { DJSCommand } from '../../types/declarations';
+import { DJSCommand } from '../../declarations';
 import profileSchema from '../../schemas/profileSchema';
 import guildSchema = require('../../schemas/guildSchema');
 import { APIInteractionDataResolvedGuildMember, GuildMember } from 'discord.js';

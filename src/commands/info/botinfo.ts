@@ -1,4 +1,4 @@
-import { version as djsversion, EmbedBuilder } from 'discord.js';
+import { ColorResolvable, version as djsversion, EmbedBuilder, User } from 'discord.js';
 
 import moment from 'moment';
 import { platform, cpus } from 'os';
@@ -12,24 +12,22 @@ module.exports = {
     name: 'botinfo',
     description: 'Displays indept information about the bot.',
     async execute({ client, interaction, profileData, guildData }: DJSCommand) {
-
+        if (!interaction.isCommand()) return;
+        if (!interaction.inCachedGuild()) return;
 
         const cpu = cpus()[0].model.split('CPU');
-        const clientUser: any = client?.user;
-        if (!clientUser) return interaction.reply({ content: 'There was an error while fetching the client user.', ephemeral: true });
+        if (!client.user) return interaction.reply({ content: 'There was an error while fetching the client user.', ephemeral: true });
 
         const generalInfo = {
             name: '<:documents:773950876347793449> General ❯',
             inline: false,
             value: `>>> **<:card:773965449402646549> Bot Name: ${client?.user?.tag}**\n
-                    **📇 Bot ID: ${clientUser.id}**\n
-                    **👑 Bot Owner: ${clientUser.cache.get(botOwner).tag}**\n
-                    **💻 Bot Dev: ${clientUser.cache.get(botDeveloper).tag}**\n
+                    **📇 Bot ID: ${client.user.id}**\n
                     **🌐 Servers: ${client.guilds.cache.size.toLocaleString()} Servers**\n
                     **👥 Users: ${client.users.cache.size.toLocaleString()} Users**\n
                     **📺 Channels: ${client.channels.cache.size.toLocaleString()} Channels**\n
                     **💬 Commands: ${client.commands.size} Commands**\n
-                    **📅 Created: ${moment(client.user?.createdTimestamp).format('MMMM Do YYYY, h:mm:ss')} | ${Math.floor((Date.now() - clientUser.createdTimestamp) / 86400000)} day(s) ago**\n`,
+                    **📅 Created: ${moment(client.user?.createdTimestamp).format('MMMM Do YYYY, h:mm:ss')} | ${Math.floor((Date.now() - client.user.createdTimestamp) / 86400000)} day(s) ago**\n`,
         };
 
         const systemInfo = {
@@ -45,8 +43,8 @@ module.exports = {
         };
 
         const embed: EmbedBuilder = new EmbedBuilder()
-            .setThumbnail(clientUser.displayAvatarURL({ dynamic: true, size: 512 }))
-            .setColor(interaction.guild.members.cache.get(clientUser.id).displayHexColor)
+            .setThumbnail(client.user.displayAvatarURL())
+            .setColor(client.user.discriminator as ColorResolvable)
             .setFooter({ text: `Requested by ${interaction.user.tag}` })
             .setTimestamp()
             .setTitle('Bot Information')
