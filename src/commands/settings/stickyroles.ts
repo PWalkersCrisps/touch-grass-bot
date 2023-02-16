@@ -7,7 +7,9 @@ module.exports = {
     description: 'Toggles sticky roles.',
     async execute({ client, interaction, profileData, guildData }: DJSCommand) {
         if (!interaction.isCommand()) return;
-        if (!interaction.guild?.available) return;
+        if (!interaction.guild) return;
+        if (!interaction.inCachedGuild()) return;
+        if (!interaction.isChatInputCommand()) return;
         if (!guildData) return interaction.reply({ content: 'There is no Guild Data', ephemeral: true });
         if (!interaction.member) return interaction.reply({ content: 'There is no member found', ephemeral: true });
 

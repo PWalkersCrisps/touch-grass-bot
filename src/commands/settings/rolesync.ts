@@ -9,6 +9,8 @@ module.exports = {
         // Exit if not a command
         if (!interaction.isCommand()) return;
         if (!interaction.guild) return;
+        if (!interaction.inCachedGuild()) return;
+        if (!interaction.isChatInputCommand()) return;
         if (!guildData) return;
 
         // Check if user has permission to manage channels
@@ -22,7 +24,7 @@ module.exports = {
 
         // Get subcommand
         const subCommand: string = interaction.options.getSubcommand();
-        const choice: string = interaction.options.getString('choice');
+        const choice: string = interaction.options.getString('choice') as string;
         if (!choice) return interaction.reply({ content: 'Please specify a choice!', ephemeral: true });
         switch (subCommand) {
             case 'import':

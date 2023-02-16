@@ -8,6 +8,9 @@ module.exports = {
     description: 'Trusts a user or a guild.',
     async execute({ client, interaction, profileData, guildData }: DJSCommand) {
         if (!interaction.isCommand()) return;
+        if (!interaction.guild) return;
+        if (!interaction.inCachedGuild()) return;
+        if (!interaction.isChatInputCommand()) return;
         if (!profileData.botManager) return interaction.reply({ content: 'You do not have permission to use this command!', ephemeral: true });
 
         if (interaction.options.getSubcommand() === 'user') {

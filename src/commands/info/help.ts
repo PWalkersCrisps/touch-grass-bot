@@ -8,7 +8,10 @@ module.exports = {
     name: 'help',
     description: 'Help command',
     async execute({ client, interaction, profileData, guildData }: DJSCommand) {
-
+        if (!interaction.isCommand()) return;
+        if (!interaction.guild) return;
+        if (!interaction.inCachedGuild()) return;
+        if (!interaction.isChatInputCommand()) return;
 
         const commandChosen = interaction.options.getString('command');
 

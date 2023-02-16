@@ -7,7 +7,9 @@ module.exports = {
     description: '',
     async execute({ client, interaction, profileData, guildData }: DJSCommand) {
         if (!interaction.isCommand()) return;
-        if (!interaction.guild?.available) return;
+        if (!interaction.guild) return;
+        if (!interaction.inCachedGuild()) return;
+        if (!interaction.isChatInputCommand()) return;
         if (!interaction.member) return interaction.reply({ content: 'There was an error fetching the member', ephemeral: true });
         if (!guildData) return interaction.reply({ content: 'There is no Guild Data found', ephemeral: true });
 
@@ -15,8 +17,8 @@ module.exports = {
             return interaction.reply({ content: 'You do not have permission to use this command!', ephemeral: true });
         }
 
-        const role: Role = interaction.options.getRole('role');
-        const addremove: string = interaction.options.getString('addremove');
+        const role: Role = interaction.options.getRole('role') as Role;
+        const addremove: string = interaction.options.getString('addremove') as string;
         const guildID: string = interaction.guild.id;
 
         const embed: EmbedBuilder = new EmbedBuilder()
