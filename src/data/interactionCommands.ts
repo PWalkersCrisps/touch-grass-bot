@@ -266,4 +266,22 @@ module.exports = [
                     { name: 'Verification', value: 'verify' },
                 )
                 .setRequired(true)),
+
+    new SlashCommandBuilder()
+        .setName('unverify')
+        .setDescription('Unverifies a user.')
+        .addUserOption(option =>
+            option
+                .setName('user')
+                .setDescription('The user to unverify.')
+                .setRequired(true)),
+
+    new SlashCommandBuilder()
+        .setName('unnsfwban')
+        .setDescription('Unnsfwbans a user.')
+        .addUserOption(option =>
+            option
+                .setName('user')
+                .setDescription('The user to unnsfwbans.')
+                .setRequired(true)),
 ];
