@@ -14,7 +14,7 @@ module.exports = {
         if (!interaction.inCachedGuild()) return;
         if (!interaction.isChatInputCommand()) return;
 
-        const member: GuildMember = interaction.options.getMember('user') as GuildMember;
+        const member: GuildMember = interaction.options.getMember('member') as GuildMember;
         const reason: string = interaction.options.getString('reason') as string;
         const hide: boolean = interaction.options.getBoolean('hide') as boolean;
 

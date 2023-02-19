@@ -11,7 +11,7 @@ module.exports = {
         if (!interaction.inCachedGuild()) return;
         if (!interaction.isChatInputCommand()) return;
 
-        const member: GuildMember = (interaction.options.getUser('member') || interaction.member) as GuildMember;
+        const member: GuildMember = (interaction.options.getMember('member') || interaction.member) as GuildMember;
 
         if (!profileData) return interaction.reply({ content: 'Yeah profile data is gone', ephemeral: true });
 

@@ -1,4 +1,4 @@
-import { EmbedBuilder } from 'discord.js';
+import { EmbedBuilder, GuildMember } from 'discord.js';
 import modStats from '../../schemas/modStats';
 import { DJSCommand } from '../../declarations';
 
@@ -9,18 +9,18 @@ module.exports = {
         if (!interaction.isCommand()) return;
         if (!interaction.guild?.available) return;
 
-        const user = interaction.options.getUser('user') || interaction.user;
+        const member = (interaction.options.getMember('member') || interaction.member) as GuildMember;
 
-        const modStatsData = await modStats.findOne({ userID: user.id, guildID: interaction.guild.id });
+        const modStatsData = await modStats.findOne({ userID: member.id, guildID: interaction.guild.id });
 
         if (!modStatsData) return interaction.reply({ content: 'You don\'t have any mod stats for this server', ephemeral: true });
 
         const modStatsEmbed = new EmbedBuilder()
             .setColor('#0099ff')
             .setTitle('Mod Stats')
-            .setThumbnail(user.displayAvatarURL())
+            .setThumbnail(member.displayAvatarURL())
             .addFields(
-                { name: 'User', value: `<@${user.id}>`, inline: true },
+                { name: 'User', value: `<@${member.id}>`, inline: true },
                 { name: 'NSFW Bans', value: `${modStatsData.nsfwBanCount}`, inline: true },
                 { name: 'Verifications', value: `${modStatsData.verifyCount}`, inline: true },
             )

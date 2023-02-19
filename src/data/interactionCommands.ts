@@ -45,19 +45,19 @@ module.exports = [
 
     new SlashCommandBuilder()
         .setName('whois')
-        .setDescription('Shows info about a user.')
+        .setDescription('Shows info about a member.')
         .addUserOption(option =>
             option
-                .setName('user')
-                .setDescription('The user to get info about.')),
+                .setName('member')
+                .setDescription('The member to get info about.')),
 
     new SlashCommandBuilder()
         .setName('verify')
-        .setDescription('Verifies a user.')
+        .setDescription('Verifies a member.')
         .addUserOption(option =>
             option
-                .setName('user')
-                .setDescription('The user to verify.')
+                .setName('member')
+                .setDescription('The member to verify.')
                 .setRequired(true))
         .addStringOption(option =>
             option
@@ -74,11 +74,11 @@ module.exports = [
 
     new SlashCommandBuilder()
         .setName('nsfwban')
-        .setDescription('Bans a user from viewing NSFW channels.')
+        .setDescription('Bans a member from viewing NSFW channels.')
         .addUserOption(option =>
             option
-                .setName('user')
-                .setDescription('The user to ban.')
+                .setName('member')
+                .setDescription('The member to ban.')
                 .setRequired(true))
         .addStringOption(option =>
             option
@@ -95,19 +95,19 @@ module.exports = [
 
     new SlashCommandBuilder()
         .setName('modstats')
-        .setDescription('Shows moderation stats for a user.')
+        .setDescription('Shows moderation stats for a member.')
         .addUserOption(option =>
             option
-                .setName('user')
-                .setDescription('The user to get stats for.')),
+                .setName('member')
+                .setDescription('The member to get stats for.')),
 
     new SlashCommandBuilder()
         .setName('manualcheck')
-        .setDescription('Manually checks a user.')
+        .setDescription('Manually checks a member.')
         .addUserOption(option =>
             option
-                .setName('user')
-                .setDescription('The user to check.')),
+                .setName('member')
+                .setDescription('The member to check.')),
 
     new SlashCommandBuilder()
         .setName('guildstats')
@@ -269,19 +269,19 @@ module.exports = [
 
     new SlashCommandBuilder()
         .setName('unverify')
-        .setDescription('Unverifies a user.')
+        .setDescription('Unverifies a member.')
         .addUserOption(option =>
             option
-                .setName('user')
-                .setDescription('The user to unverify.')
+                .setName('member')
+                .setDescription('The member to unverify.')
                 .setRequired(true)),
 
     new SlashCommandBuilder()
         .setName('unnsfwban')
-        .setDescription('Unnsfwbans a user.')
+        .setDescription('Unnsfwbans a member.')
         .addUserOption(option =>
             option
-                .setName('user')
-                .setDescription('The user to unnsfwbans.')
+                .setName('member')
+                .setDescription('The member to unnsfwbans.')
                 .setRequired(true)),
 ];
