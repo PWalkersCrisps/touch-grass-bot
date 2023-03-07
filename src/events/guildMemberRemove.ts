@@ -1,8 +1,9 @@
 import profileRoleSchema from '../schemas/profileRoleSchema';
 import guildSchema from '../schemas/guildSchema';
+import { GuildMember, Events } from 'discord.js';
 module.exports = {
-    name: 'guildMemberRemove',
-    async execute(member: any) {
+    name: Events.GuildMemberRemove,
+    async execute(member: GuildMember) {
 
         const guildData = await guildSchema.findOne({ guildID: member.guild.id });
 

@@ -1,42 +1,46 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { clientID, testingGuildID } from '../data/config.json';
 import { REST, Routes } from 'discord.js';
+import { TouchGrassClient } from '../structures/client';
 
-import commands = require('../data/interactionCommands');
-import time from '../modules/time';
+import commands from '../data/interactionCommands';
+import { currentDate } from '../modules/time';
 import { config } from 'dotenv';
 config();
 
-import roleSync = require('../modules/roleSync');
-import imageOnly = require('../modules/imageOnly');
+import roleSync from '../modules/roleSync';
+import imageOnly from '../modules/imageOnly';
+
+import log from '../modules/log';
 
 module.exports = {
     name: 'ready',
     once: true,
-    async execute(client: any) {
+    async execute(client: TouchGrassClient) {
         try {
-            const readyMessage = `${ time.currentDate } ${ client.user.tag } is online, hopefully it works`;
+            const readyMessage = `${ currentDate } ${ client.user?.tag } is online, hopefully it works`;
 
-            console.log(readyMessage);
+            log(readyMessage);
 
-            const rest = new REST({
-                version: '9',
-            }).setToken(process.env.BOT_TOKEN as string);
-
-            console.log(`${ time.currentDate } Started refreshing application (/) commands.`);
-
-            await rest.put(
-                Routes.applicationCommands(clientID),
-                { body: commands },
-            );
-
-            console.log(`${ time.currentDate } Successfully reloaded application (/) commands.`);
-
-            roleSync.sync(client);
-            imageOnly.check(client);
+            deployCommands(client.user?.id);
+            roleSync(client);
+            imageOnly(client);
         }
         catch (error) {
-            console.error(`${time.currentDate} ready error: ${error}`);
+            log(`${currentDate} ready error: ${error}`, 'error');
         }
     },
 };
+
+async function deployCommands(clientID: string | undefined) {
+    if (!clientID) return console.error('No client ID found');
+    const rest = new REST({ version: '9' }).setToken((process.env.NODE_ENV === 'production' ? process.env.BOT_TOKEN : process.env.DEV_BOT_TOKEN) as string);
+
+    log(`${ currentDate } Started refreshing application (/) commands.`);
+
+    await rest.put(
+        Routes.applicationCommands(clientID),
+        { body: commands },
+    );
+
+    log(`${ currentDate } Successfully reloaded application (/) commands.`);
+}

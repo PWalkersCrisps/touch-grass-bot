@@ -1,17 +1,18 @@
 import profileSchema from '../schemas/profileSchema';
 import guildSchema from '../schemas/guildSchema';
-import { GuildDocument } from '../declarations';
+import { Client } from 'discord.js';
+import { checkForNSFWBanRole, checkForVerifiedRole, checkForNSFWRole } from './checkPerms';
 
-export = {
-    sync : async function(client: any) {
-        try {
 
-            const guilds = client.guilds.cache;
-            const guildDocuments: GuildDocument[] = await guildSchema.find();
-            const guildIDs = guildDocuments.map((doc: any) => doc.guildID);
-            const guildsToSync = guilds.filter((guild: any) => guildIDs.includes(guild.id));
+export default async function roleSync(client: Client) {
+    try {
 
-            /* Explanation for what to should do:
+        const guilds = client.guilds.cache;
+        const guildDocuments: GuildDocument[] = await guildSchema.find();
+        const guildIDs = guildDocuments.map((doc: any) => doc.guildID);
+        const guildsToSync = guilds.filter((guild: any) => guildIDs.includes(guild.id));
+
+        /* Explanation for what to should do:
 
             Just a concept but...
 
@@ -21,77 +22,46 @@ export = {
             the bot then gives the user the verified role for that server
             */
 
-            for (const [guildID, guild] of guildsToSync) {
+        for (const [guildID, guild] of guildsToSync) {
 
-                const guildDocument: GuildDocument | undefined = guildDocuments.find((doc: any) => doc.guildID === guildID);
+            const guildDocument: GuildDocument | undefined = guildDocuments.find((doc: any) => doc.guildID === guildID);
 
-                if (!guild.available) continue;
-                if (!guildDocument) continue;
-                if (!guildDocument.roles) continue;
-                if (!guildDocument.syncImports) continue;
+            if (!guild.available) continue;
+            if (!guildDocument) continue;
+            if (!guildDocument.roles) continue;
+            if (!guildDocument.syncImports) continue;
 
-                const guildMembers = await guild.members.fetch();
-                const profileDocuments = await profileSchema.find();
-                const profileDocumentsToSync = profileDocuments.filter((doc: any) => guildMembers.has(doc.userID));
+            const guildMembers = await guild.members.fetch();
+            const profileDocuments = await profileSchema.find();
+            const profileDocumentsToSync = profileDocuments.filter((doc: any) => guildMembers.has(doc.userID));
 
-                for (const profileDocument of profileDocumentsToSync) {
-                    const { userID, verify, nsfw } = profileDocument;
-                    const member = guild.members.cache.get(userID);
+            for (const profileDocument of profileDocumentsToSync) {
+                const { userID, verify, nsfw }: ProfileDocumentResults = profileDocument as ProfileDocumentResults;
+                if (!guildDocument.roles.verifiedRole && !guildDocument.roles.nsfwBanRole && !guildDocument.roles.nsfwRole) continue;
+                if (!userID) continue;
+                const member = guild.members.cache.get(userID);
 
-                    if (!(member || userID || verify || nsfw) || member.user.bot) continue;
+                if (!member || member.user.bot) continue;
 
-                    if (member.roles.highest.position >= guild.members.resolve(client.user.id).roles.highest.position) continue;
+                const user = client.user;
+                if (!user) continue;
+                const clientMember = guild.members.resolve(user);
+                if (!clientMember) continue;
 
-                    checkForVerifiedRole(guildDocument, guild, member, verify);
-                    checkForNSFWBanRole(guildDocument, guild, member, nsfw);
-                    checkForNSFWRole(guildDocument, guild, member, nsfw);
-                }
+                if (member.roles.highest.position >= clientMember.roles.highest.position as any) continue;
+
+                checkForVerifiedRole(guildDocument, guild, member, verify);
+                checkForNSFWBanRole(guildDocument, guild, member, nsfw);
+                checkForNSFWRole(guildDocument, guild, member, nsfw);
             }
+        }
 
-            delay(5 * 60).then(() => { this.sync(client); });
-        }
-        catch (error) {
-            console.error(error);
-        }
-    },
+        delay(5 * 60).then(() => { roleSync(client); });
+    }
+    catch (error) {
+        console.error(error);
+    }
 }
 
 const delay = (seconds: number) => new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 
-function checkForVerifiedRole(guildDocument: any, guild: any, member: any, verify: any) {
-    if (!guildDocument.roles.verifiedRole) return;
-
-    const verifiedRole = guild.roles.cache.get(guildDocument.roles.verifiedRole);
-
-    if (verifiedRole && verify.verified) {
-        member.roles.add(verifiedRole);
-    }
-    else if (verifiedRole && !verify.verified) {
-        member.roles.remove(verifiedRole);
-    }
-
-}
-
-function checkForNSFWBanRole(guildDocument: any, guild: any, member: any, nsfw: any) {
-    if (!guildDocument.roles.nsfwBanRole) return;
-
-    const nsfwBanRole = guild.roles.cache.get(guildDocument.roles.nsfwBanRole);
-
-    if (nsfwBanRole && nsfw.nsfwBanned) {
-        member.roles.add(nsfwBanRole);
-    }
-    else if (nsfwBanRole && !nsfw.nsfwBanned) {
-        member.roles.remove(nsfwBanRole);
-    }
-
-}
-
-function checkForNSFWRole(guildDocument: any, guild: any, member: any, nsfw: any) {
-    if (!guildDocument.roles.nsfwRole) return;
-
-    const nsfwRole = guild.roles.cache.get(guildDocument.roles.nsfwRole);
-
-    if (nsfwRole && nsfw.nsfwBanned) {
-        member.roles.remove(nsfwRole);
-    }
-}

@@ -8,14 +8,19 @@ export = model('guilds', new Schema({
         nsfwRole: { type: Schema.Types.String, default: null },
         verifiedRole: { type: Schema.Types.String, default: null },
         modRoles: { type: [Schema.Types.String], default: [] },
+        muteRole: { type: Schema.Types.String, default: null },
     },
     stats: {
         nsfwBanCount: { type: Schema.Types.Number, default: 0 },
         verifyCount: { type: Schema.Types.Number, default: 0 },
     },
+    channels : {
+        nsfwBanLogChannelID: { type: Schema.Types.String, default: null },
+        verificationLogChannelID: { type: Schema.Types.String, default: null },
+        imageOnlyChannels: { type: [Schema.Types.String], default: [] },
+        suggestionChannelID: { type: Schema.Types.String, default: null },
+    },
     syncImports: { type: Schema.Types.Boolean, default: true },
     syncExports: { type: Schema.Types.Boolean, default: true },
-    nsfwBanLogChannelID: { type: Schema.Types.String, default: null },
-    verificationLogChannelID: { type: Schema.Types.String, default: null },
-    imageOnlyChannels: { type: [Schema.Types.String], default: [] },
+    prefix: { type: Schema.Types.String, default: '!' },
 }));

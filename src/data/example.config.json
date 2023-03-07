@@ -1,7 +1,7 @@
 {
-    "clientID": "",
     "testingGuildID": "",
     "botOwner": "",
     "botDeveloper": "426455031571677197",
-    "logChannelID": ""
+    "logChannelID": "",
+    "debug": false
 }

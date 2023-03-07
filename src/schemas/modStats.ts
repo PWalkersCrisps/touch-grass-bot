@@ -4,4 +4,7 @@ export = model('stats', new Schema({
     guildID: { type: Schema.Types.String, require: true },
     nsfwBanCount: { type: Schema.Types.Number, default: 0 },
     verifyCount: { type: Schema.Types.Number, default: 0 },
+    banCount: { type: Schema.Types.Number, default: 0 },
+    kickCount: { type: Schema.Types.Number, default: 0 },
+    muteCount: { type: Schema.Types.Number, default: 0 },
 }));

@@ -1,5 +1,7 @@
 ecosystem.config.js
+jest.config.ts
 build
+package
 
 # Logs
 logs
