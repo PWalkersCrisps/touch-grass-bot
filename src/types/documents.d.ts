@@ -14,12 +14,10 @@ interface GuildDocument {
         nsfwBanCount: number;
         verifyCount: number;
     };
-    channels: {
-        nsfwBanLogChannelID: string;
-        verificationLogChannelID: string;
-        imageOnlyChannels: string[];
-        suggestionChannelID: string;
-    }
+    nsfwBanLogChannelID: string;
+    verificationLogChannelID: string;
+    imageOnlyChannels: string[];
+    suggestionChannelID: string;
     syncImports: boolean;
     syncExports: boolean;
     prefix: string;
