@@ -5,16 +5,18 @@
     "main": "./build/index.js",
     "scripts": {
         "test": "jest",
+        "lint": "eslint . --ext .ts",
         "clean-win": "del /s /q build",
         "clean-unix": "rm -rf build",
         "clean-build-win": "npm run clean-win && npm run build",
         "clean-build-unix": "npm run clean-unix && npm run build",
+        "clean-build-start-unix": "npm run clean-build-unix && npm run start",
+        "clean-build-start-win": "npm run clean-build-win && npm run start",
         "build": "tsc",
         "build-start": "npm run build && npm run start",
         "build-start-dev": "npm run build && npm run start-dev",
         "start": "node ./build/index.js",
-        "start-dev": "node ./build/index.js dev",
-        "lint": "eslint . --ext .ts"
+        "start-dev": "node ./build/index.js dev"
     },
     "repository": {
         "type": "git",

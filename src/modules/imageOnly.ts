@@ -1,7 +1,7 @@
 import guildSchema from '../schemas/guildSchema';
 import { Message, TextChannel, Collection } from 'discord.js';
 export default async function check(client: any) {
-    const guildDocuments = await guildSchema.find();
+    const guildDocuments: GuildDocument[] = await guildSchema.find();
 
     for (const guildDocument of guildDocuments) {
         const guild = client.guilds.cache.get(guildDocument.guildID);
