@@ -21,9 +21,15 @@ module.exports = {
 
             log(readyMessage);
 
-            deployCommands(client.user?.id);
-            roleSync(client);
-            imageOnly(client);
+            try {
+                deployCommands(client.user?.id);
+                // roleSync(client);
+                imageOnly(client);
+            }
+            catch (error) {
+                log(error, 'error');
+            }
+
         }
         catch (error) {
             log(`${currentDate} ready error: ${error}`, 'error');
