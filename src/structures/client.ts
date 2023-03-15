@@ -33,7 +33,7 @@ export class TouchGrassClient extends Client {
 
     async start() {
         // For each of the two handlers, require the handler file and run it
-        ['interactionCommand', 'messageCommand', 'buttons', 'event'].forEach((handler) => {
+        ['interactionCommand', /* 'messageCommand', 'buttons', */ 'event'].forEach((handler) => {
             require(resolve(`./build/handlers/${handler}`))(this);
         });
 
