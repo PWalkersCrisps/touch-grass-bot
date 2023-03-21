@@ -13,7 +13,6 @@ module.exports = {
             const guildData: GuildDocument = await guildSchema.findOneAndUpdate({ guildID: message.guild.id }, { guildID: message.guild.id }, { upsert: true, new: true }); // Get the guild data from the database
 
             if (!message.content.startsWith(guildData.prefix)) return;
-            else if (!message.content.startsWith('!')) return;
 
             const args = message.content.slice(1).trim().split(/ +/);
             const commandName = args.shift()?.toLowerCase();
