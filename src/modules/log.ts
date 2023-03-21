@@ -1,14 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 import { EmbedBuilder } from 'discord.js';
-import config from '../data/config.json';
 
 export function toServer(client: any, guildData: GuildDocument, logEmbed: EmbedBuilder, logType: ServerLogType) {
     try {
         if (guildData.nsfwBanLogChannelID && logType === 'nsfwban') client.channels.cache.get(guildData.nsfwBanLogChannelID).send({ embeds: [logEmbed] });
         if (guildData.verificationLogChannelID && logType === 'verify') client.channels.cache.get(guildData.verificationLogChannelID).send({ embeds: [logEmbed] });
-        const logChannel = client.channels.cache.get(config.logChannelID);
-        if (config.logChannelID && logChannel) logChannel.send({ embeds: [logEmbed] });
     }
     catch (error) {
         console.error(error);
@@ -25,9 +22,6 @@ export default function log(input: string, logType: ConsoleLogType = 'log') {
             break;
         case 'error':
             console.error(input);
-            break;
-        case 'debug':
-            if (config.debug) console.log(input);
             break;
     }
 
