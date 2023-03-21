@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Channel, ColorResolvable, EmbedBuilder, Message, TextChannel } from 'discord.js';
-import { TouchGrassClient } from '../../../structures/client';
+import { TouchGrassClient } from '../../../classes/client';
 
 module.exports = {
     name: 'suggestion',

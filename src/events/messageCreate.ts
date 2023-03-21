@@ -1,7 +1,7 @@
 import profileSchema = require('../schemas/profileSchema');
 import guildSchema = require('../schemas/guildSchema');
 import { Events, Message } from 'discord.js';
-import { TouchGrassClient } from '../structures/client';
+import { TouchGrassClient } from '../classes/client';
 module.exports = {
     name: Events.MessageCreate,
     async execute(message: Message) {
@@ -13,7 +13,6 @@ module.exports = {
             const guildData: GuildDocument = await guildSchema.findOneAndUpdate({ guildID: message.guild.id }, { guildID: message.guild.id }, { upsert: true, new: true }); // Get the guild data from the database
 
             if (!message.content.startsWith(guildData.prefix)) return;
-            else if (!message.content.startsWith('!')) return;
 
             const args = message.content.slice(1).trim().split(/ +/);
             const commandName = args.shift()?.toLowerCase();

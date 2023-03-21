@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-export class InteractionCommand {
+export class MessageCommand {
     name: string;
     description: string;
     alias: string[];
@@ -18,7 +18,7 @@ export class InteractionCommand {
         this.nsfw = false;
     }
 
-    async execute({ client, interaction, profileData, guildData }: InteractionCommandArgs) {
+    async execute({ client, message, args, profileData, guildData }: MessageCommandArgs) {
         throw new Error(`Command ${this.name} doesn't provide an execute() method!`);
     }
 

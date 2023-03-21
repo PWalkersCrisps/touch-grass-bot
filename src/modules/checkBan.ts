@@ -1,4 +1,4 @@
-import { TouchGrassClient } from '../structures/client';
+import { TouchGrassClient } from '../classes/client';
 import banSchema = require('../schemas/banSchema');
 
 export default async function checkBan(client: TouchGrassClient) {
