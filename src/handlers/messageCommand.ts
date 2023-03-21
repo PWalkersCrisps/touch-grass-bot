@@ -2,7 +2,7 @@
 import { readdirSync } from 'fs';
 import ascii from 'ascii-table';
 import { resolve } from 'path';
-import { TouchGrassClient } from '../structures/client';
+import { TouchGrassClient } from '../classes/client';
 import log from '../modules/log';
 
 const table = new ascii('Message commands');

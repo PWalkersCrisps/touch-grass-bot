@@ -1,7 +1,7 @@
 import profileSchema = require('../schemas/profileSchema');
 import guildSchema = require('../schemas/guildSchema');
 import { Events, Interaction } from 'discord.js';
-import { TouchGrassClient } from '../structures/client';
+import { TouchGrassClient } from '../classes/client';
 
 module.exports = {
     name: Events.InteractionCreate,

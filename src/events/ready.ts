@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { REST, Routes } from 'discord.js';
-import { TouchGrassClient } from '../structures/client';
+import { TouchGrassClient } from '../classes/client';
 
 import commands from '../data/interactionCommands';
 import { currentDate } from '../modules/time';
