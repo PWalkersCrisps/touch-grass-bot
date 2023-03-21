@@ -11,7 +11,7 @@
         "clean-build-win": "npm run clean-win && npm run build",
         "clean-build-unix": "npm run clean-unix && npm run build",
         "clean-build-start-unix": "npm run clean-unix && npm run build && npm run start",
-        "clean-build-start-win": "npm run clean-build-win && npm run build && npm run start",
+        "clean-build-start-win": "npm run clean-win && npm run build && npm run start",
         "build": "tsc",
         "build-start": "npm run build && npm run start",
         "build-start-dev": "npm run build && npm run start-dev",
