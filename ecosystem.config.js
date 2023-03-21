@@ -3,7 +3,7 @@ require('dotenv').config();
 module.exports = {
 	'apps': [
 		{
-			'name': 'pwc-porn-bot',
+			'name': 'touch-grass-bot',
 			'script': 'npm',
             'args': 'clean-build-start-unix',
 
