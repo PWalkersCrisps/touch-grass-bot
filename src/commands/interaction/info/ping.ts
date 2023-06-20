@@ -1,15 +1,24 @@
-import { EmbedBuilder, Message } from 'discord.js';
+import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { InteractionCommand } from '../../../classes/command';
 
-module.exports = {
-    name: 'ping',
-    description: 'Returns the bot\'s latency and API ping.',
-    async execute({ client, interaction }: InteractionCommandArgs) {
-        interaction.reply({ content: '🏓 Pinging....', fetchReply: true }).then((msg: Message) => {
-            const pEmbed: EmbedBuilder = new EmbedBuilder()
-                .setTitle('🏓 Pong!')
-                .setColor(0x0000ff)
-                .setDescription(`Latency: ${Math.floor(msg.createdTimestamp - interaction.createdTimestamp)}ms\nAPI Latency: ${client.ws.ping}ms`);
-            interaction.editReply({ embeds: [pEmbed] });
-        });
-    },
-};
+export class PingCommand extends InteractionCommand {
+    constructor() {
+        super();
+        this.name = 'ping';
+        this.description = 'Ping the bot to see if it\'s alive!';
+        this.data = new SlashCommandBuilder()
+            .setName(this.name)
+            .setDescription(this.description)
+            .setDMPermission(false)
+            .setNSFW(this.nsfw);
+    }
+
+    async execute(interaction: CommandInteraction) {
+        const pingMessage = await interaction.reply({ content: 'Pinging...', fetchReply: true });
+        const ping = pingMessage.createdTimestamp - interaction.createdTimestamp;
+
+        await interaction.editReply({ content: `Pong! Latency: ${ping}ms` });
+    }
+}
+
+export default new PingCommand();

@@ -4,4 +4,3 @@ export = model('profileRoles', new Schema({
     guildID: { type: Schema.Types.String, require: true },
     roleIDs: { type: [Schema.Types.String], default: [] },
 }));
-

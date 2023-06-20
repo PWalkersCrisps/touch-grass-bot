@@ -1,10 +1,12 @@
-import { TouchGrassClient } from './classes/client'; // Import the TouchGrassClient class from ./utils/client.ts
-import { connectToMongoDB } from './handlers/mongo'; // Import the connectToMongoDB function from ./handlers/mongo.ts
+import BotClient from './classes/client';
+import mongoConnect from './modules/mongoConnect';
+import { config } from 'dotenv';
 
-export const args = process.argv.slice(2); // Get the arguments passed to the node command
-if (args.includes('dev')) process.env.NODE_ENV = 'development';
-else process.env.NODE_ENV = 'production';
+config();
 
-export const client = new TouchGrassClient(); // Create a new instance of the TouchGrassClient class
-connectToMongoDB(); // Connect to the MongoDB database
+mongoConnect();
+
+console.log('Starting bot...');
+
+const client = new BotClient();
 client.start();

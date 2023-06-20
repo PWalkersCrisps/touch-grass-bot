@@ -11,13 +11,13 @@ module.exports = {
 			'env_production': {
 				'NODE_ENV': 'production',
 
-				'BOT_TOKEN': process.env.BOT_TOKEN,
+				'DISCORD_BOT_TOKEN': process.env.DISCORD_BOT_TOKEN,
                 'MONGODB_URI': process.env.MONGODB_URI
 			},
             'env_development': {
                 'NODE_ENV': 'development',
 
-                'BOT_TOKEN': process.env.BOT_TOKEN,
+                'DISCORD_BOT_TOKEN': process.env.DISCORD_BOT_TOKEN,
                 'MONGODB_URI': process.env.MONGODB_URI
             }
 		},

@@ -1,4 +1,5 @@
 build/
+mongo-data/
 
 # Logs
 logs
