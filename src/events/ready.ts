@@ -1,52 +1,68 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-import { REST, Routes } from 'discord.js';
-import { TouchGrassClient } from '../classes/client';
-
-import commands from '../data/interactionCommands';
-import { currentDate } from '../modules/time';
+import { Events, REST, Routes } from 'discord.js';
+import BotClient from '../classes/client';
+import BotEvent from '../classes/event';
+import path from 'path';
+import fs from 'fs';
 import { config } from 'dotenv';
+
 config();
 
-import roleSync from '../modules/roleSync';
-import imageOnly from '../modules/imageOnly';
+class Ready extends BotEvent {
 
-import log from '../modules/log';
+    constructor() {
+        super();
+        this.name = Events.ClientReady;
+        this.once = true;
+    }
 
-module.exports = {
-    name: 'ready',
-    once: true,
-    async execute(client: TouchGrassClient) {
-        try {
-            const readyMessage = `${ currentDate } ${ client.user?.tag } is online, hopefully it works`;
+    async execute(client: BotClient) {
+        await this.deployCommands(client.user?.id);
+    }
 
-            log(readyMessage);
+    private async deployCommands(clientID: string | undefined) {
+        if (!clientID) return console.error('No client ID found');
+        const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_BOT_TOKEN as string);
 
-            try {
-                deployCommands(client.user?.id);
-                // roleSync(client);
-                imageOnly(client);
+        console.log('Started refreshing application (/) commands.');
+
+        const commands = await this.getCommandData();
+
+        await rest.put(
+            Routes.applicationCommands(clientID),
+            { body: commands },
+        );
+
+        console.log('Successfully reloaded application (/) commands.');
+    }
+
+    private async getCommandData() {
+        const commands = [];
+        // Grab all the command files from the commands directory you created earlier
+        const foldersPath = path.join(__dirname, '../commands/interaction');
+        const commandFolders = fs.readdirSync(foldersPath);
+
+        for (const folder of commandFolders) {
+            // Grab all the command files from the commands directory you created earlier
+            const commandsPath = path.join(foldersPath, folder);
+            const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+            // Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
+            for (const file of commandFiles) {
+                const filePath = path.join(commandsPath, file);
+                // eslint-disable-next-line @typescript-eslint/no-var-requires
+                const commandModule = await import(filePath);
+                const command = commandModule.default || commandModule;
+                if ('data' in command && 'execute' in command) {
+                    commands.push(command.data.toJSON());
+                }
+                else {
+                    console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+                }
             }
-            catch (error) {
-                log(error, 'error');
-            }
-
         }
-        catch (error) {
-            log(`${currentDate} ready error: ${error}`, 'error');
-        }
-    },
-};
 
-async function deployCommands(clientID: string | undefined) {
-    if (!clientID) return console.error('No client ID found');
-    const rest = new REST({ version: '9' }).setToken((process.env.NODE_ENV === 'production' ? process.env.BOT_TOKEN : process.env.DEV_BOT_TOKEN) as string);
+        return commands;
+    }
 
-    log(`${ currentDate } Started refreshing application (/) commands.`);
-
-    await rest.put(
-        Routes.applicationCommands(clientID),
-        { body: commands },
-    );
-
-    log(`${ currentDate } Successfully reloaded application (/) commands.`);
 }
+
+export default new Ready();
