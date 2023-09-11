@@ -24,9 +24,9 @@ class MessageCreate extends BotEvent {
     }
 
     containsSlur(message: Message): boolean {
-        const wildcardRegexes: RegExp[] = slursWildcard.map((slur: string) => new RegExp('\\b' + slur + '\\b', 'i'));
+        const slurFilterPattern = new RegExp('\\b(' + slursWildcard.join('|') + ')\\b', 'g');
 
-        const wildcardMatch: boolean = wildcardRegexes.some((regex: RegExp) => regex.test(message.content));
+        const wildcardMatch: boolean = slurFilterPattern.test(message.content);
 
         const exactMatch: boolean = slursExact.some((slur: string) => message.content.toLowerCase().includes(slur.toLowerCase()));
 
