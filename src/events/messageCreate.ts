@@ -62,8 +62,7 @@ class MessageCreate extends BotEvent {
             });
         }
 
-        message.reply({ content:  replyMessage, embeds: [replyEmbed] });
-        message.delete();
+        message.reply({ content:  replyMessage, embeds: [replyEmbed] }).then(() => message.delete());
     }
 }
 
