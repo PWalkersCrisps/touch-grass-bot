@@ -14,7 +14,7 @@ export class RoletestCommand extends InteractionCommand {
     }
 
     async execute(interaction: CommandInteraction) {
-        await interaction.reply({ content: '<@&811018391913627688> Test' });
+        await interaction.reply({ content: '<@&988136334147350558> Test' });
     }
 }
 
