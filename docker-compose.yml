@@ -9,7 +9,7 @@ services:
     restart: unless-stopped
   mongo:
     image: mongo:latest
-    container_name: touch-bot-db
+    container_name: touch-grass-bot-db
     env_file: .env
     volumes:
       - ./mongo-data:/data/db
