@@ -24,11 +24,13 @@ class MessageCreate extends BotEvent {
     }
 
     containsSlur(message: Message): boolean {
-        const wildcardRegexes: RegExp[] = slursWildcard.map((slur: string) => new RegExp('\\b' + slur + '\\b', 'i'));
+        const slurFilterPattern = new RegExp('\\b(' + slursWildcard.join('|') + ')\\b', 'g');
 
-        const wildcardMatch: boolean = wildcardRegexes.some((regex: RegExp) => regex.test(message.content));
+        const wildcardMatch: boolean = slurFilterPattern.test(message.content);
 
-        const exactMatch: boolean = slursExact.some((slur: string) => message.content.toLowerCase().includes(slur.toLowerCase()));
+        const splitMessage = message.content.toLowerCase().split(' ');
+
+        const exactMatch: boolean = this.arraysHaveMatchingString(splitMessage, slursExact);
 
         return wildcardMatch || exactMatch;
     }
@@ -63,6 +65,10 @@ class MessageCreate extends BotEvent {
         }
 
         message.reply({ content:  replyMessage, embeds: [replyEmbed] }).then(() => message.delete());
+    }
+
+    arraysHaveMatchingString(arr1: string[], arr2: string[]): boolean {
+        return arr1.some(item1 => arr2.some(item2 => item1 === item2));
     }
 }
 
