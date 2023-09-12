@@ -29,7 +29,7 @@ export class BotClient extends Client {
                 GatewayIntentBits.MessageContent,
             ],
             shards: 'auto',
-            allowedMentions: { parse: ['roles', 'users']},
+            allowedMentions: { parse: ['roles', 'users'] },
         });
 
         // Create new collections for commands, buttons, and aliases
