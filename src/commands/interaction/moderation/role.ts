@@ -1,4 +1,4 @@
-import { CommandInteraction, Guild, GuildMember, PermissionFlagsBits, Role, SlashCommandBuilder } from 'discord.js';
+import { CommandInteraction, GuildMember, PermissionFlagsBits, Role, SlashCommandBuilder } from 'discord.js';
 import { InteractionCommand } from '../../../classes/command';
 
 export class RoleCommand extends InteractionCommand {

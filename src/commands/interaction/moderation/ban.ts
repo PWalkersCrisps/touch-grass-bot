@@ -1,5 +1,7 @@
-import { CommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
+import { CommandInteraction, EmbedBuilder, PermissionFlagsBits, SlashCommandBuilder, TextChannel } from 'discord.js';
 import { InteractionCommand } from '../../../classes/command';
+
+const modLogsChannelID = '826283823884927038';
 
 export class BanCommand extends InteractionCommand {
     constructor() {
@@ -13,26 +15,46 @@ export class BanCommand extends InteractionCommand {
             .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
             .setNSFW(this.nsfw)
             .addUserOption(option => option.setName('user').setDescription('The user to ban.').setRequired(true))
-            .addStringOption(option => option.setName('reason').setDescription('The reason for banning the user.').setRequired(false))
-            .addBooleanOption(option => option.setName('delete').setDescription('Whether to delete the user\'s messages or not.').setRequired(false));
+            .addStringOption(option => option.setName('reason').setDescription('The reason for banning the user.').setRequired(false));
     }
 
     async execute(interaction: CommandInteraction): Promise<any> {
 
+        // Get the mentioned user to ban
         const user = interaction.options.getUser('user', true);
-        const reason: string = interaction.options.get('reason', false)?.value as string || 'No reason provided.';
-        const deleteMessages: boolean = interaction.options.get('delete', false)?.value as boolean || false;
+        const reason = interaction.options.get('reason', false)?.value as string || 'No reason provided.';
 
-        if (!interaction.guild?.available) return;
+        const modLogsChannel: TextChannel | undefined = interaction.client.channels.cache.get(modLogsChannelID) as TextChannel | undefined;
 
-        const member = interaction.guild.members.cache.get(user.id);
+        if (!user) return interaction.reply('User not found.');
 
-        if (!member) return interaction.reply({ content: 'That user is not in this server!', ephemeral: true });
+        interaction.guild?.members.fetch(user.id).then(member => {
+            if (!member.bannable) {
+                return interaction.reply('This user is not bannable.');
+            }
+        });
 
-        if (!member.bannable) return interaction.reply({ content: 'That user is not bannable!', ephemeral: true });
+        const banEmbed = new EmbedBuilder()
+            .setTitle('User Banned')
+            .setDescription(`**${user.tag}** has been banned from the server.`)
+            .setColor('#ff0000')
+            .addFields(
+                { name: 'Reason', value: reason }
+            );
 
-        await member.ban({ deleteMessageSeconds: deleteMessages ? 60 * 60 * 24 : 0, reason: reason });
+        if (modLogsChannel) {
+            await modLogsChannel.send({ embeds: [banEmbed] });
+        }
 
+        try {
+            // Ban the user
+            await interaction.guild?.members.ban(user, { reason: reason });
+            interaction.reply({ embeds: [banEmbed] });
+        }
+        catch (error) {
+            console.error(error);
+            interaction.reply('An error occurred while trying to ban the user.');
+        }
     }
 }
 
