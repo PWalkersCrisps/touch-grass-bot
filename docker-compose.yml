@@ -1,7 +1,9 @@
 version: '3.8'
 services:
   bot:
-    build: .
+    # Uncomment the following line to build the bot locally and comment out the image line
+    # build: .
+    image: ghcr.io/touch-grass-bot/bot:latest
     container_name: touch-grass-bot
     env_file: .env
     depends_on:
