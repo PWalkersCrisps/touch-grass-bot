@@ -30,8 +30,6 @@ export const guildSchema = new Schema({
 
 const GuildModel = model<IGuild>('guilds', guildSchema);
 
-// Suggest another name for this class as there is already a Guild class in discord.js
-// suggestion: GuildSettings
 class GuildSettings {
     guildId: string;
     channelIds: {
