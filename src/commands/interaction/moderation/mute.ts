@@ -14,10 +14,10 @@ export class MuteCommand extends InteractionCommand {
             .setNSFW(this.nsfw)
             .addUserOption(option => option.setName('user').setDescription('The user to muting.').setRequired(true))
             .addStringOption(option => option.setName('reason').setDescription('The reason for muting the user.').setRequired(false))
-            .addIntegerOption(option => option.setName('days').setDescription('The number of days to mute the user for.').setRequired(false))
-            .addIntegerOption(option => option.setName('hours').setDescription('The number of hours to mute the user for.').setRequired(false))
+            .addIntegerOption(option => option.setName('seconds').setDescription('The number of seconds to mute the user for.').setRequired(false))
             .addIntegerOption(option => option.setName('minutes').setDescription('The number of minutes to mute the user for.').setRequired(false))
-            .addIntegerOption(option => option.setName('seconds').setDescription('The number of seconds to mute the user for.').setRequired(false));
+            .addIntegerOption(option => option.setName('hours').setDescription('The number of hours to mute the user for.').setRequired(false))
+            .addIntegerOption(option => option.setName('days').setDescription('The number of days to mute the user for.').setRequired(false));
     }
 
     async execute(interaction: CommandInteraction): Promise<any> {
