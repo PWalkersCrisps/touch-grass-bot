@@ -1,4 +1,4 @@
-import { CommandInteraction, EmbedBuilder, GuildMember, SlashCommandBuilder, TextChannel } from 'discord.js';
+import { CommandInteraction, EmbedBuilder, GuildMember, PermissionFlagsBits, SlashCommandBuilder, TextChannel } from 'discord.js';
 import { InteractionCommand } from '../../../classes/command';
 
 const pornBanRoleID = '856414668003737621';
@@ -15,6 +15,7 @@ export class PBanCommand extends InteractionCommand {
             .setDescription(this.description)
             .setDMPermission(false)
             .setNSFW(this.nsfw)
+            .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
             .addUserOption(option => option.setName('user').setDescription('The user to porn-ban.').setRequired(true))
             .addStringOption(option => option.setName('reason').setDescription('The reason for porn-ban'));
     }

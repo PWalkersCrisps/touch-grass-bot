@@ -10,7 +10,7 @@ export class RoleCommand extends InteractionCommand {
             .setName(this.name)
             .setDescription(this.description)
             .setDMPermission(false)
-            .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
+            .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles)
             .setNSFW(this.nsfw)
             .addUserOption(option => option.setName('user').setDescription('The user to give the role to.').setRequired(true))
             .addRoleOption(option => option.setName('role').setDescription('The role to give to the user.').setRequired(true));

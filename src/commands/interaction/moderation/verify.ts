@@ -1,4 +1,4 @@
-import { CommandInteraction, EmbedBuilder, GuildMember, SlashCommandBuilder, TextChannel } from 'discord.js';
+import { CommandInteraction, EmbedBuilder, GuildMember, PermissionFlagsBits, SlashCommandBuilder, TextChannel } from 'discord.js';
 import { InteractionCommand } from '../../../classes/command';
 
 const modLogsChannelID = '826283823884927038';
@@ -15,6 +15,7 @@ export class VerifyCommand extends InteractionCommand {
             .setName(this.name)
             .setDescription(this.description)
             .setDMPermission(false)
+            .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
             .setNSFW(this.nsfw)
             .addUserOption(option => option.setName('user').setDescription('The user to verify.').setRequired(true))
             .addIntegerOption(option => option.setName('day').setDescription('The day the user was born. (DD)').setRequired(true))
