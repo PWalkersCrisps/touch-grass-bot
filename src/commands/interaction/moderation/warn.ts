@@ -1,4 +1,4 @@
-import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { CommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { InteractionCommand } from '../../../classes/command';
 
 export class WarnCommand extends InteractionCommand {
@@ -10,7 +10,8 @@ export class WarnCommand extends InteractionCommand {
             .setName(this.name)
             .setDescription(this.description)
             .setDMPermission(false)
-            .setNSFW(this.nsfw);
+            .setNSFW(this.nsfw)
+            .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers);
     }
 
     async execute(interaction: CommandInteraction) {
