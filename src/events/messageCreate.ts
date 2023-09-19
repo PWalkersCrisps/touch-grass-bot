@@ -64,7 +64,8 @@ class MessageCreate extends BotEvent {
             });
         }
 
-        message.reply({ content:  replyMessage, embeds: [replyEmbed] }).then(() => message.delete());
+        message.channel.send({ content:  replyMessage, embeds: [replyEmbed] });
+        message.delete();
     }
 
     arraysHaveMatchingString(arr1: string[], arr2: string[]): boolean {
